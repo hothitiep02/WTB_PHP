@@ -7,11 +7,17 @@
     <title>Document</title>
 </head>
 <body>
+    <?php
+        // require_once './app/views/components/header.php';
+    ?>
     <div id="content">
         <?php
             require_once './app/views/pages/'.$data['Page'].'.view'.'.php';
         ?>
     </div>
+    <?php
+        // require_once './app/views/components/footer.php';
+    ?>
     <script src="/LUXURY_SPORTS/public/js/LoadPage.js"></script>
     <script src="/LUXURY_SPORTS/public/js/Search.js"></script>
 </body>
