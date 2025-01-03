@@ -1,0 +1,13 @@
+.footer-container{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    background-color: black;
+    color: white;
+}
+.footer-container *{
+    margin: 10px;
+}
+img {
+    width: 100px;
+    height: 100px;
+}
