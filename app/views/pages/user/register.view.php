@@ -11,7 +11,7 @@
     <div class="container">
         <div class="signup-form">   
             <!-- Chỉnh sửa action để trỏ tới controller -->
-            <form action="./auth-process.php" method="POST">
+            <form  method="POST">
                 <input type="hidden" name="action" value="register">
                 <h2>Create your Free Account</h2>
                 <div class="form">
@@ -28,7 +28,7 @@
                 </div>
                 <button type="submit">Create Account</button>
             </form>
-            <p class="login">Already have an account? <a href="login.php">Log in</a></p>
+            <p class="login">Already have an account? <a href="user/login">Log in</a></p>
         </div>
     </div>
 </body>

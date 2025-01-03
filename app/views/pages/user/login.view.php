@@ -118,7 +118,7 @@ a:hover {
         <?php if (!empty($error)): ?>
             <div class="error-message"><?php echo htmlspecialchars($error); ?></div>
         <?php endif; ?>
-        <form method="post" class="form-login" action="./auth-process.php">
+        <form method="post" class="form-login" action="">
             <input type="hidden" name="action" value="login">
             <label for="user-email">Email</label>
             <input type="email" name="email" id="email" placeholder="Input your email here" required>
@@ -129,7 +129,7 @@ a:hover {
             <input type="submit" value="Login">
         </form>
         <a href="#" class="forgot-pw">Forgot Password?</a>
-        <p>Already have an account? <a href="register.php"><b>Register</b></a></p></div>
+        <p>Already have an account? <a href="user/register"><b>Register</b></a></p></div>
 </body>
 
 </html>
