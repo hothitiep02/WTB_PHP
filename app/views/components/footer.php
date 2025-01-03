@@ -3,25 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/WTB_PHP/public/css/Footer.css">
     <title>Document</title>
-    <style>
-        .container{
-            display: grid;
-            grid-template-columns: repeat(4,1fr);
-            background-color: black;
-            color: white;
-        }
-        .container *{
-            margin: 10px;
-        }
-        img {
-            width: 100px;
-            height: 100px;
-        }
-    </style>
 </head>
 <body>
-    <div class="container">
+    <div class="footer-container">
         <div><img src="../../../public/asset/logo-wetube.png" alt=""></div>
         <div><b>Hỗ trợ và giúp đỡ</b>
             <div>Phản ánh ý kiến</div>

@@ -1,9 +1,10 @@
-body {
+.detail-container {
     background-color: black;
+    margin-top: -10px;
     }
 
     .card-title, h2, p {
-        color: white;
+        color: white !important;
     }
     .img_card {
         margin-bottom: 15px;

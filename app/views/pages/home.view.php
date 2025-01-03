@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <base href="http://localhost/WTB_PHP/"> -->
-    <link rel="stylesheet" href="../../../public/css/Home.css">
     <title>Movie List</title>
+    <link rel="stylesheet" href="/WTB_PHP/public/css/Home.css">
 </head>
 <body>
-    <div class="container">
+    <div class="home-container">
         <div class="section new-release">
             <h2>New Release - Movies</h2>
             <div class="release">
@@ -20,11 +19,6 @@
                         echo "<div class='play-button'>▶</div>";
                         echo "<div class='movie_title'>";
                         echo "<h3>" . htmlspecialchars($movie['title']) . "</h3>";
-                        echo "</div>";
-                        echo "<div class='genres'>";
-                        foreach (explode(',', $movie['type_id']) as $genre) {
-                            echo "<span class='genre-tag'>" . htmlspecialchars($genre) . "</span>";
-                        }
                         echo "</div>";
                         echo "<a class='watch-button' href='Movie/showById/" . htmlspecialchars($movie['movie_id']) . "'>▶ Watch movie</a>";
                         echo "</div>";
@@ -43,7 +37,7 @@
                 if (!empty($data['romanceMovie'])) {
                     foreach ($data['romanceMovie'] as $movie) {
                         echo "<div class='movie'>";
-                        echo "<a href='Movie/showDetail/" . htmlspecialchars($movie['movie_id']) . "'><img src='" . htmlspecialchars($movie['poster']) . "' alt='" . htmlspecialchars($movie['title']) . "' /></a>";
+                        echo "<a href='Movie/showDetail/" . htmlspecialchars($movie['movie_id']) . "/" . htmlspecialchars($movie['type_id']) . "'><img class='image' src='" . htmlspecialchars($movie['poster']) . "' alt='" . htmlspecialchars($movie['title']) . "' /></a>";
                         echo "<div class='movie_title'><h3>" . htmlspecialchars($movie['title']) . "</h3></div>";
                         echo "<a class='watch-button' href='Movie/showById/" . htmlspecialchars($movie['movie_id']) . "'>▶ Watch movie</a>";
                         echo "</div>";
@@ -63,7 +57,7 @@
                 if (!empty($data['cartoonMovie'])) {
                     foreach ($data['cartoonMovie'] as $movie) {
                         echo "<div class='movie'>";
-                        echo "<a href='Movie/showDetail/" . htmlspecialchars($movie['movie_id']) . "'><img src='" . htmlspecialchars($movie['poster']) . "' alt='" . htmlspecialchars($movie['title']) . "' /></a>";
+                        echo "<a href='Movie/showDetail/" . htmlspecialchars($movie['movie_id']) . "/" . htmlspecialchars($movie['type_id']) . "'><img class='image' src='" . htmlspecialchars($movie['poster']) . "' alt='" . htmlspecialchars($movie['title']) . "' /></a>";
                         echo "<div class='movie_title'><h3>" . htmlspecialchars($movie['title']) . "</h3></div>";
                         echo "<a class='watch-button' href='Movie/showById/" . htmlspecialchars($movie['movie_id']) . "'>▶ Watch movie</a>";
                         echo "</div>";
@@ -83,7 +77,7 @@
                 if (!empty($data['horrorMovie'])) {
                     foreach ($data['horrorMovie'] as $movie) {
                         echo "<div class='movie'>";
-                        echo "<a href='Movie/showDetail/" . htmlspecialchars($movie['movie_id']) . "'><img src='" . htmlspecialchars($movie['poster']) . "' alt='" . htmlspecialchars($movie['title']) . "' /></a>";
+                        echo "<a href='Movie/showDetail/" . htmlspecialchars($movie['movie_id']) . "/" . htmlspecialchars($movie['type_id']) . "'><img class='image' src='" . htmlspecialchars($movie['poster']) . "' alt='" . htmlspecialchars($movie['title']) . "' /></a>";
                         echo "<div class='movie_title'><h3>" . htmlspecialchars($movie['title']) . "</h3></div>";
                         echo "<a class='watch-button' href='Movie/showById/" . htmlspecialchars($movie['movie_id']) . "'>▶ Watch movie</a>";
                         echo "</div>";
@@ -95,6 +89,7 @@
             </div>
         </div>
     </div>
+   
 </body>
 </html>
 

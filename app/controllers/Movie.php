@@ -29,20 +29,24 @@ class Movie extends Controller
             ]);
         }
     }
-    public function showDetail($movieId = null) {
-        // Ensure the ID is valid before proceeding
-        if ($movieId > 0) {
+    public function showDetail($movieId = null, $typeId = null) {
+
+        if ($movieId && $typeId) {
             $movie = $this->MovieModel->getMovieById($movieId);
+            $relateMovies = $this->MovieModel->getRelatedMovies($movieId, $typeId);
             $this->view('master', [
                 'Page' => 'detail',
-                'movieId' => $movie
+                'movieId' => $movie,
+                'relateMovie' =>  $relateMovies
             ]);
         } else {
-            // Handle the case where the ID is invalid
+            // Trả về lỗi khi tham số không hợp lệ
             $this->view('master', [
                 'Page' => 'error',
-                'message' => 'Invalid movie ID.'
+                'message' => 'Movie ID or Type ID is invalid.'
             ]);
         }
     }
+    
 }
+?>
