@@ -3,7 +3,7 @@
         public $conn;
         public $servername = "localhost";
         public $username = "root";
-        public $password = "";
+        public $password = "Hiep@1609";
         public $dbname = "wetube";
 
         function __construct() {
