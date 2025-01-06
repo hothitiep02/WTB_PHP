@@ -1,10 +1,39 @@
-body{
-    background-color: black;
+body {
+    background-color: #121212;
     color: white;
 }
-.title{
-    margin-left:100px;
+.heart_icon.active {
+    background-color: #121212;
+    color: white;
 }
+
+.heart_icon button{
+    background-color: #121212;
+    color: white;
+    border: none;
+    font-size: 30px;
+}
+.collection_icon button{
+    background-color: black;
+    color: white;
+    border: none;
+    font-size: 30px;
+}
+.num_heart{
+    font-size: 30px;   
+}
+
+.heart_icon.active button i {
+    color: red; 
+}
+
+.watchMovie-title{
+    margin-left:100px;
+    text-align: center;
+    writing-mode: horizontal-tb !important; 
+    transform: rotate(0);
+}
+
 .image img{
     width: 300px;
     height: 300px;
@@ -77,28 +106,4 @@ body{
 }
 .icon p{
     margin: 0px;
-}
-.head{
-    display: flex;
-    gap: 700px;
-    
-}
-.heart_icon button{
-    background-color: black;
-    color: white;
-    border: none;
-    font-size: 30px;
-}
-.collection_icon button{
-    background-color: black;
-    color: white;
-    border: none;
-    font-size: 30px;
-}
-.num_heart{
-    font-size: 30px;   
-}
-
-.heart_icon.active button i {
-    color: red; /* Đảm bảo là biểu tượng trái tim có màu đỏ khi active */
 }

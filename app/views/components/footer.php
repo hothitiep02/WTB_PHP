@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="footer-container">
-        <div><img src="../../../public/asset/logo-wetube.png" alt=""></div>
+        <div><img src="/WTB_PHP/public/images/Logo WTB.jpg" alt=""></div>
         <div><b>Hỗ trợ và giúp đỡ</b>
             <div>Phản ánh ý kiến</div>
             <div>Câu hỏi thường gặp</div>

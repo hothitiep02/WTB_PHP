@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/WTB_PHP/public/css/WatchMovie.css">
 </head>
 <body>
-    <div class="container">
+    <div class="watchMovie-container"">
         <div class="movie_banner">
             <iframe 
                 src="<?php echo htmlspecialchars($data['movieId']['movie_url']); ?>" 
@@ -19,9 +19,9 @@
                 allowfullscreen>
             </iframe>
         </div>
-        <div class="head">
-            <div class="title">
-                <h1><?php echo htmlspecialchars($data['movieId']['title']); ?></h1>
+        <div class="watchMovie-head" style="display:flex; gap: 700px;">
+            <div class="watchMovie-title">
+                <h2><?php echo htmlspecialchars($data['movieId']['title']); ?></h2>
             </div>
             <div class="icon">
                 <form method="post" class= "form_icon">
@@ -30,7 +30,8 @@
                             <i class="bi bi-heart-fill"></i>
                         </button>    
                     </div>
-                    <div class="num_heart"><p><?php echo $likeCount; ?></p>
+                    <div class="num_heart">
+                        <p><?php echo isset($likeCount) ? $likeCount : '0'; ?></p>
                     </div>
                     <div class="collection_icon">
                         <button type="submit" name="collection"><i class="fa fa-bookmark-o"></i></button>
