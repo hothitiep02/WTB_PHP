@@ -1,0 +1,234 @@
+body {
+        font-family: Arial, sans-serif;
+        background-color: #0f0e0e;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        display: flex;
+        background-color: #181414;
+        width: 100%;
+        height: 100vh;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin: 20px;
+    }
+
+    @media (min-width: 1200px) {
+        .container,
+        .container-lg,
+        .container-md,
+        .container-sm,
+        .container-xl {
+            max-width: 1480px;
+        }
+    }
+
+    .sidebar {
+        width: 25%;
+        background-color: #fff;
+        margin-right: 20px;
+        color: #120202;
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    span {
+        font-size: 20px;
+    }
+
+    .sidebar a {
+        color: #080000;
+        text-decoration: none;
+        display: block;
+        margin: 10px 0;
+    }
+
+    .sidebar_item ul {
+        list-style-type: none;
+        display: none;
+    }
+
+    .sidebar_item.active ul {
+        display: block;
+    }
+
+    #profile_info {
+        background-color: #fff;
+        width: 100%;
+        padding: 20px;
+        border-radius: 8px;
+
+    }
+
+    .content h2 {
+        margin-bottom: 20px;
+    }
+
+    .upload {
+        width: 200px;
+        height: 200px;
+        border: 2px dashed #ccc;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 20px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .img_upload img {
+        width: 100%;
+        height: auto;
+        border-radius: 50%;
+    }
+
+    .camera-icon {
+        position: absolute;
+        top: 250px;
+        right: 36%;
+        background-color: rgba(255, 255, 255, 0.7);
+        border-radius: 50%;
+        padding: 5px;
+        cursor: pointer;
+    }
+
+    .form_inf {
+        margin-left: 10%;
+        color: black;
+    }
+
+    .mb-3 {
+        margin-bottom: 15px;
+    }
+
+    .mb-3 label {
+        font-size: 20px;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .mb-3 input {
+        font-size: 20px;
+        width: 80%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .btn-update {
+        font-size: 20px;
+        background-color: #eeea04;
+        color: rgb(0, 0, 0);
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-left: 66%;
+    }
+
+    .btn-update:hover {
+        background-color: #218838;
+    }
+
+    p {
+        font-size: 20px;
+    }
+    #editForm {
+        position: fixed;
+        top: 60%;
+        left: 60%;
+        transform: translate(-50%, -50%);
+        width: 600px;
+        max-width: 90%;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        z-index: 2;
+        display: block;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+        max-height: 70vh;
+        height: auto;
+        min-height: 300px;
+    }
+
+    #editForm .img_upload {
+        width: 50%;
+        height: 150px;
+        border: 2px dashed #ccc;
+        border-radius: 50%;
+        margin-left: 22%;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    #editForm .img_upload img {
+        border-radius: 50%;
+    }
+
+    #editForm .camera-icon {
+        /* position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background-color: rgba(255, 255, 255, 0.7);
+        border-radius: 50%;
+        padding: 5px;
+        cursor: pointer; */
+        top: 50px;
+        left: 110px;
+    }
+
+    #editForm .file-input {
+        display: none;
+    }
+
+    #editForm .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 30px;
+        color: #000;
+        cursor: pointer;
+        background-color: transparent;
+        border: none;
+        transition: color 0.3s ease;
+    }
+
+    #editForm .close-btn:hover {
+        color: #ff0000; 
+    }
+
+    .sidebar_item ul {
+        display: none;
+        list-style-type: none;
+        padding-left: 20px;
+    }
+
+    /* Khi mở, hiển thị danh sách */
+    .sidebar_item.open ul {
+        display: block;
+    }
+
+    .sidebar_item a {
+        cursor: pointer;
+    }
+
+    .arrow {
+        padding-left: 5px;
+    }
+    #Update_Profile{
+        background-color: rgb(87, 204, 87);
+        border: none;
+        padding: 5px;
+    }
+    #editButton{
+        background-color: rgb(82, 153, 194);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
