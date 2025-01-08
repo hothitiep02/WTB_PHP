@@ -13,7 +13,11 @@
         padding: 20px;
         background-color: black;
         width: 100%;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    a {
+        text-decoration: none;
+        color: white;
     }
 
     .nav>* {
