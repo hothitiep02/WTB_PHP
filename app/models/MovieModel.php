@@ -54,7 +54,6 @@ class MovieModel extends Database
         return $data;
     }
 
-    // Lấy phim theo thể loại (1: Romance, 2: Cartoon, 3: Horror)
     public function getMoviesByGenre($genre)
     {
         $query = "SELECT * FROM movies WHERE type_id = ?";
@@ -69,8 +68,6 @@ class MovieModel extends Database
         }
         return $data;
     }
-
-     // Lấy phim liên quan theo type_id
      public function getRelatedMovies($movieId, $typeId)
      {
          $query = "SELECT * FROM movies WHERE type_id = ? AND movie_id != ?";
@@ -85,6 +82,18 @@ class MovieModel extends Database
          }
          return $data;
      }
+
+     public function updateMovie($movie_id, $title, $movie_url, $poster, $type_id)
+    {
+        $query = "UPDATE movies SET title = ?, movie_url = ?, poster = ?, type_id = ? WHERE movie_id = ?";
+        $stmt = mysqli_prepare($this->conn, $query);
+        mysqli_stmt_bind_param($stmt, "ssssi", $title, $movie_url, $poster, $type_id, $movie_id);
+        if (mysqli_stmt_execute($stmt)) {
+            return true; 
+        } else {
+            die("Lỗi khi cập nhật phim: " . mysqli_error($this->conn));
+        }
+    }
  
      }
 ?>

@@ -8,7 +8,6 @@
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     
 </head>
 <style>
@@ -220,11 +219,9 @@
                 </thead>
 
                 <tbody id="movieTableBody">
-
                     <?php
-                        // var_dump($movies);
                         if (!empty($data['movies']) && is_array($data['movies'])) {
-                            foreach ($data['movies']as $movie) {
+                            foreach ($data['movies'] as $movie) {
                                 echo "
                                     <tr>
                                         <td>{$movie['movie_id']}</td>
@@ -235,7 +232,8 @@
                                         <td>
                                             <form method='POST' style='display:inline;' class='btn-form'>
                                                 <input type='hidden' name='movie_id' value='{$movie['movie_id']}'>
-                                                <a class='add-btn' id='update'>Update</a>
+                                                <!-- Modal Trigger -->
+                                                <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#updateMovieModal' data-id='{$movie['movie_id']}' data-title='{$movie['title']}' data-url='{$movie['movie_url']}' data-poster='{$movie['poster']}' data-type='{$movie['type_id']}'>Update</button>
                                                 <input type='submit' name='delete' class='btn btn-danger' value='Delete'>
                                                 <a href='movie-detail.php?movie_id={$movie['movie_id']}' class='btn btn-danger'>Detail</a>
                                             </form>
@@ -247,12 +245,81 @@
                             echo "<tr><td colspan='6' class='text-center'>No movies found.</td></tr>";
                         }
                     ?>
-
                 </tbody>
+
 
             </table>
         </div>
     </div>
+    
+    <!-- Modal for updating movie -->
+<div class="modal fade" id="updateMovieModal" tabindex="-1" aria-labelledby="updateMovieModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateMovieModalLabel">Update Movie</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateMovieForm" method="POST" action="/HomeAdmin/updateMovie/<?= $movie['movie_id'] ?>">
+                    <input type="hidden" name="movie_id" id="movie_id">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Movie Title</label>
+                        <input type="text" class="form-control" name="title" id="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="movie_url" class="form-label">Movie URL</label>
+                        <input type="text" class="form-control" name="movie_url" id="movie_url" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="poster" class="form-label">Poster URL</label>
+                        <input type="text" class="form-control" name="poster" id="poster" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="type_id" class="form-label">Genre</label>
+                        <select class="form-select" name="type_id" id="type_id" required>
+                            <option value="1">Tình cảm</option>
+                            <option value="2">Hoạt hình</option>
+                            <option value="3">Kinh dị</option>
+                            <option value="1">Hài</option>
+                            <option value="2">Khoa học viễn tưởng</option>
+                            <option value="3">Âm nhạc</option>
+                            <option value="3">võ thuật</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" name="update">Update Movie</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var updateMovieModal = document.getElementById('updateMovieModal');
+    updateMovieModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget; // Nút "Update"
+        var movieId = button.getAttribute('data-id');
+        var title = button.getAttribute('data-title');
+        var movieUrl = button.getAttribute('data-url');
+        var poster = button.getAttribute('data-poster');
+        var typeId = button.getAttribute('data-type');
+
+
+        var modalTitle = updateMovieModal.querySelector('.modal-title');
+        var movieIdInput = updateMovieModal.querySelector('#movie_id');
+        var titleInput = updateMovieModal.querySelector('#title');
+        var urlInput = updateMovieModal.querySelector('#movie_url');
+        var posterInput = updateMovieModal.querySelector('#poster');
+        var typeSelect = updateMovieModal.querySelector('#type_id');
+
+        modalTitle.textContent = 'Update Movie - ' + title;
+        movieIdInput.value = movieId;
+        titleInput.value = title;
+        urlInput.value = movieUrl;
+        posterInput.value = poster;
+        typeSelect.value = typeId;
+    });
+</script>
 
 </body>
 </html>
