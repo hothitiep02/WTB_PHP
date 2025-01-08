@@ -16,14 +16,14 @@
     <div class="header-container">
     <div class="nav">
         <div class="logo"><img src="../../../public/asset/logo-wetube.png" alt=""></div>
-        <div><a href="../index.php">Home</a></div>
+        <div><a href="home">Home</a></div>
         <div class="srch">
             <input type="text" placeholder="Search...">
             <button type="submit">
                 <i class="fa fa-search"></i>
             </button>
         </div>
-        <div><a href="../">Movies</a></div>
+        <div><a href="Movie/show/">Movies</a></div>
         <div class="auth">
     <?php if (isset($_SESSION['user_id'])): ?>
         <div id="user-icon" class="user-icon">

@@ -7,9 +7,6 @@
 </head>
 <body>
     <h1>Danh sách phim</h1>
-    <?php
-        echo $data['movieList'];
-    ?>
     <table border="1">
         <tr>
             <th>ID</th>
@@ -17,8 +14,8 @@
             <th>Thể loại</th>
             <th>Năm phát hành</th>
         </tr>
-        <?php if (!empty($data['movies'])): ?>
-            <?php foreach ($data['movies'] as $movie): ?>
+        <?php if (!empty($data['movieList'])): ?>
+            <?php foreach ($data['movieList'] as $movie): ?>
             <tr>
                 <td><?php echo htmlspecialchars($movie['movie_id']); ?></td>
                 <td><?php echo htmlspecialchars($movie['title']); ?></td>

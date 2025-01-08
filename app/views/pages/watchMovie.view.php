@@ -20,22 +20,31 @@
             </iframe>
         </div>
         <div class="head">
-            <div class="title">
-                <h1><?php echo htmlspecialchars($data['movieId']['title']); ?></h1>
-            </div>
+            <h1><?php echo isset($data['movieId']['title']) ? htmlspecialchars($data['movieId']['title']) : 'Unknown Title'; ?></h1>
+
             <div class="icon">
-                <form method="post" class= "form_icon">
-                    <div class="heart_icon" id="heart_icon">
-                        <button type="submit" name="favorite">
+                <div class="heart_icon" id="heart_icon">
+                    <form action="movie/addLike" method="POST" id="likeForm">
+                        <input type="hidden" name="movie_id" value="<?php echo htmlspecialchars($data['movieId']['movie_id']); ?>">
+                        <button type="submit" style="background: none; border: none; cursor: pointer;">
                             <i class="bi bi-heart-fill"></i>
-                        </button>    
-                    </div>
-                    <div class="num_heart"><p><?php echo $likeCount; ?></p>
-                    </div>
-                    <div class="collection_icon">
-                        <button type="submit" name="collection"><i class="fa fa-bookmark-o"></i></button>
-                    </div> 
-                </form>   
+                        </button>
+                    </form>
+                </div>
+                <div class="num_heart">
+                    <?php
+
+                        echo count($data['likes']);
+                    ?>
+                </div>
+                <div class="collection_icon">
+                    <form action="user/addCollection" method="POST" id="addCollection">
+                        <input type="hidden" name="movie_id" value="<?php echo htmlspecialchars($data['movieId']['movie_id']); ?>">
+                        <button type="submit" style="background: none; border: none; cursor: pointer;">
+                            <i class="fa fa-bookmark-o"></i>
+                        </button>
+                    </form>
+                </div> 
             </div>
         </div>
         
@@ -54,13 +63,23 @@
                 <div class="text_cmt">
                     <img src="https://vapa.vn/wp-content/uploads/2022/12/anh-dai-dien-dep-001.jpg" class="avarta" alt="">
                     <div class="content">
-                        <form method="post">
+                        <form method="post" action="movie/addComment">
+                            <input type="hidden" name="movie_id" value="<?php echo htmlspecialchars($data['movieId']['movie_id']); ?>">
                             <input type="text" name="comment_text" placeholder="Nhập bình luận">
                             <div class="button_cmt">
-                                <button type="button" class="cancel">Cancel</button>
                                 <button type="submit" name="comment">Comment</button>
                             </div>
                         </form>
+                    <div class="view">
+                        <?php
+                            // Kiểm tra xem $data['views'] có tồn tại và là mảng không
+                            if (isset($data['views']) && is_array($data['views'])) {
+                                echo count($data['views']);
+                            } else {
+                                echo "0"; // Hoặc hiển thị thông điệp khác nếu không có lượt xem
+                            }
+                        ?>
+                    </div>
                     </div>
                 </div>
                 
@@ -77,5 +96,28 @@
         </div>
     </div>
     <script src="../../public/asset/js/like.js"></script>
+
+<!-- <script>
+    document.getElementById('addCollection').onsubmit = function(event) {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định của biểu mẫu
+
+        var formData = new FormData(this);
+
+        fetch(this.action, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            alert(data); // Hiển thị thông báo alert
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    };
+</script> -->
+</div>
+
+
 </body>
 </html>
