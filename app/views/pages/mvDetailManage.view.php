@@ -9,30 +9,29 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <style>
-    .box {
-        display: inline-block;
+    .watchMovie-container {
+        margin-bottom: 20px;
     }
 
-    .btn_dlcm {
-            display: inline-block;
-            margin-top: 10px;
-        }
-    .btn {
-        padding: 10px 15px;
-        border-radius: 5px;
-        background-color: red;
-        transition: background-color 0.3s;
+    .box_comment {
+        display:flex;
+        gap:10px;
+        align-items: center;
     }
 
     .delete_comment {
-        color: black;
-        text-decoration: none; /* Xóa dấu gạch chân */
+        width:80px;
+        padding: 5px;
+        border-radius: 10px;
+        border:none;
+        background-color: red;
+        transition: background-color 0.3s;
+        cursor: pointer; 
     }
 
-    .btn:hover {
-        background-color: darkred;
+    .delete_comment:hover {
+        background-color: yellow;
     }
-
 </style>
 <body>
 <div class="watchMovie-container">
@@ -84,7 +83,6 @@
                         <form method="post">
                             <input type="text" name="comment_text" placeholder="Nhập bình luận">
                             <div class="button_cmt">
-                                <button type="button" class="cancel">Cancel</button>
                                 <button type="submit" name="comment">Comment</button>
                             </div>
                         </form>
@@ -99,20 +97,18 @@
                                 <div class="name_user">
                                     <p><b><?php echo htmlspecialchars($comment['user_name']); ?></b></p>
                                 </div>
-                                <div class="box">
+                                <div class="box_comment">
                                     <div class="cnt">
                                         <p><?php echo nl2br(htmlspecialchars($comment['content'])); ?></p>
                                     </div>
-                                    <div class="btn_dlcm btn btn-danger">
-                                        <form action="<?php echo htmlspecialchars("" . htmlspecialchars($comment['comment_id']) . "/" . htmlspecialchars($movieId)); ?>" 
-                                            method="post" 
-                                            onsubmit="return confirm('Bạn có chắc muốn xóa bình luận này?');">
-                                            <button type="submit" class="btn btn-danger delete_comment">Delete</button>
+                                    <div>
+                                        <form method="post" action="/WTB_PHP/HomeAdmin/deleteComment/<?php echo $comment['comment_id']; ?>/<?php echo $data['movieId']['movie_id']; ?>" 
+                                                onsubmit="return confirm('Bạn có chắc muốn xóa bình luận này?');">
+                                                <button type="submit" class="delete_comment">Delete</button>
                                         </form>
                                     </div>
- 
+                                    
                                 </div>
-                                
                             </div>
                         </div>
                     <?php endforeach; ?>
