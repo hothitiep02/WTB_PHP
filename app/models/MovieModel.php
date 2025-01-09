@@ -158,6 +158,29 @@ public function addLike($userId, $movieId) {
          }
          return $data;
     }
+    public function checkLike($userId, $movieId) {
+        $query = "SELECT *
+                FROM `like` 
+                WHERE user_id = ? AND movie_id = ?";
+
+        $stmt = mysqli_prepare($this->conn, $query); 
+        mysqli_stmt_bind_param($stmt, "ii", $userId, $movieId);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        
+        return mysqli_num_rows($result) > 0; 
+    }
+        public function checkCollection($userId, $movieId) {
+            $query = "SELECT *
+                    FROM collections 
+                    WHERE user_id = ? AND movie_id = ?";
+
+            $stmt = mysqli_prepare($this->conn, $query); 
+            mysqli_stmt_bind_param($stmt, "ii", $userId, $movieId);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            return mysqli_num_rows($result) > 0; 
+        }
     public function addHistory($movieId, $userId) {
         $checkQuery = "SELECT COUNT(*) FROM history WHERE movie_id = ? AND user_id = ?";
         $checkStmt = $this->conn->prepare($checkQuery);
@@ -230,8 +253,48 @@ function updateMovie($movie_id, $title, $description, $movie_url, $type_id, $pos
     $stmt->bind_param('sssiss', $title, $description, $movie_url, $type_id, $poster, $movie_id);
         $result = $stmt->execute();
         $stmt->close();
-        return $result;
+
+        return $result; 
+}
+
+
+    public function getCommentsByMovieId($movieId)
+    {
+        $query = "SELECT c.comment_id, c.content, u.user_name, u.image FROM comment c
+        INNER JOIN users u ON c.user_id = u.user_id WHERE movie_id = ?
+        ORDER BY c.created_at DESC"; 
+        $stmt = mysqli_prepare($this->conn, $query);
+        mysqli_stmt_bind_param($stmt, "i", $movieId);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        $data = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $data[] = $row;
+        }
+        return $data;
     }
+
+    public function deleteComment($commentId, $movieId) {
+        $query = "DELETE FROM comment WHERE comment_id = ? AND movie_id = ?";
+        $stmt = $this->conn->prepare($query);
+    
+        if ($stmt === false) {
+            die('MySQL prepare error: ' . $this->conn->error); 
+        }
+        $stmt->bind_param("ii", $commentId, $movieId);
+        if ($stmt->execute()) {
+            return true; 
+        } else {
+
+            die("Error executing delete: " . $stmt->error);
+        }
+    }
+    
+    //  }
+    //     $stmt->close();
+    //     return $result;
+    // }
 
     public function deleteMovie($movie_id) {
         $stmt =  $this->conn->prepare("DELETE FROM comment WHERE movie_id = ?");
