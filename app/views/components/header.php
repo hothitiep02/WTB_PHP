@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,14 +12,14 @@
     <div class="header-container">
         <div class="nav">
             <div class="logo"><img src="/WTB_PHP/public/images/Logo WTB.jpg" alt=""></div>
-            <div><a href="../index.php">Home</a></div>
+            <div><a href="home">Home</a></div>
             <div class="srch">
                 <input type="text" placeholder="Search...">
                 <button type="submit">
                     <i class="fa fa-search"></i>
                 </button>
             </div>
-            <div><a href="../">Movies</a></div>
+            <div><a href="movies">Movies</a></div>
             <div class="auth">
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <div id="user-icon" class="user-icon">

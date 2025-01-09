@@ -259,11 +259,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="updateMovieForm" method="POST" action="/HomeAdmin/updateMovie/<?= $movie['movie_id'] ?>">
+                <form id="updateMovieForm" method="POST" action="./HomeAdmin/updateMovie">
                     <input type="hidden" name="movie_id" id="movie_id">
                     <div class="mb-3">
                         <label for="title" class="form-label">Movie Title</label>
                         <input type="text" class="form-control" name="title" id="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <input type="text" class="form-control" name="description" id="description" required>
                     </div>
                     <div class="mb-3">
                         <label for="movie_url" class="form-label">Movie URL</label>
@@ -273,16 +277,17 @@
                         <label for="poster" class="form-label">Poster URL</label>
                         <input type="text" class="form-control" name="poster" id="poster" required>
                     </div>
+                
                     <div class="mb-3">
                         <label for="type_id" class="form-label">Genre</label>
                         <select class="form-select" name="type_id" id="type_id" required>
                             <option value="1">Tình cảm</option>
                             <option value="2">Hoạt hình</option>
                             <option value="3">Kinh dị</option>
-                            <option value="1">Hài</option>
-                            <option value="2">Khoa học viễn tưởng</option>
-                            <option value="3">Âm nhạc</option>
-                            <option value="3">võ thuật</option>
+                            <option value="4">Hài</option>
+                            <option value="5">Khoa học viễn tưởng</option>
+                            <option value="6">Âm nhạc</option>
+                            <option value="7">võ thuật</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary" name="update">Update Movie</button>
@@ -298,6 +303,7 @@
         var button = event.relatedTarget; // Nút "Update"
         var movieId = button.getAttribute('data-id');
         var title = button.getAttribute('data-title');
+        var description= button.getAttribute('data-description');
         var movieUrl = button.getAttribute('data-url');
         var poster = button.getAttribute('data-poster');
         var typeId = button.getAttribute('data-type');
@@ -306,6 +312,7 @@
         var modalTitle = updateMovieModal.querySelector('.modal-title');
         var movieIdInput = updateMovieModal.querySelector('#movie_id');
         var titleInput = updateMovieModal.querySelector('#title');
+        var descriptionInput = updateMovieModal.querySelector('#description');
         var urlInput = updateMovieModal.querySelector('#movie_url');
         var posterInput = updateMovieModal.querySelector('#poster');
         var typeSelect = updateMovieModal.querySelector('#type_id');
@@ -313,6 +320,7 @@
         modalTitle.textContent = 'Update Movie - ' + title;
         movieIdInput.value = movieId;
         titleInput.value = title;
+        descriptionInput.value=description;
         urlInput.value = movieUrl;
         posterInput.value = poster;
         typeSelect.value = typeId;
