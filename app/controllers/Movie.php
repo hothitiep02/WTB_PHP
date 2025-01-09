@@ -47,12 +47,15 @@ public function showById($movieId = null) {
         $views = $this->MovieModel->getMovieViews($movieId);
         $likes = $this->MovieModel->getMovieLike($movieId); // Không gọi addLike ở đây
         $history = $this->MovieModel->addHistory($movieId, $userId);
-
+        $liked = $this->MovieModel->checkLike($userId, $movieId);
+        $addedCollection = $this->MovieModel->checkCollection($userId, $movieId);
         $this->view('master', [
             'Page' => 'watchMovie',
             'movieId' => $movie,
             'views' => $views,
-            'likes' => $likes // Chỉ lấy số lượt thích mà không thêm
+            'likes' => $likes,
+            'isLiked'=>$liked,
+            'isAdded'=>$addedCollection
         ]);
     } else {
         // Xử lý trường hợp ID không hợp lệ

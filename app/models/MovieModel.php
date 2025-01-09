@@ -173,6 +173,29 @@ public function addLike($userId, $movieId) {
          }
          return $data;
     }
+    public function checkLike($userId, $movieId) {
+        $query = "SELECT *
+                FROM `like` 
+                WHERE user_id = ? AND movie_id = ?";
+
+        $stmt = mysqli_prepare($this->conn, $query); // Sử dụng $this->conn ở đây
+        mysqli_stmt_bind_param($stmt, "ii", $userId, $movieId);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        
+        return mysqli_num_rows($result) > 0; // Trả về true nếu đã like, false nếu chưa
+    }
+        public function checkCollection($userId, $movieId) {
+            $query = "SELECT *
+                    FROM collections 
+                    WHERE user_id = ? AND movie_id = ?";
+
+            $stmt = mysqli_prepare($this->conn, $query); // Sử dụng $this->conn ở đây
+            mysqli_stmt_bind_param($stmt, "ii", $userId, $movieId);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            return mysqli_num_rows($result) > 0; // Trả về true nếu đã like, false nếu chưa
+        }
     public function addHistory($movieId, $userId) {
     // Kiểm tra xem bản ghi đã tồn tại chưa
     $checkQuery = "SELECT COUNT(*) FROM history WHERE movie_id = ? AND user_id = ?";
@@ -231,6 +254,8 @@ public function addLike($userId, $movieId) {
 
         return $result; // Trả về true nếu thêm thành công, false nếu không
     }
+    
+
      }
      
 ?>
