@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -231,12 +233,11 @@
                                         <td><img src='{$movie['poster']}' class='img-thumbnail' alt='Image of {$movie['title']}'></td>
                                         <td>{$movie['created_at']}</td>
                                         <td>
-                                            <form method='POST' style='display:inline;' class='btn-form'>
-                                                <input type='hidden' name='movie_id' value='{$movie['movie_id']}'>
-                                                <a class='add-btn' id='update'>Update</a>
-                                                <input type='submit' name='delete' class='btn btn-danger' value='Delete'>
-                                                <a href='movie-detail.php?movie_id={$movie['movie_id']}' class='btn btn-danger'>Detail</a>
-                                            </form>
+                                            <div style='display:inline;' class='btn-form'>
+                                                <button type='submit' name='update' class='btn btn-warning'>Update</button>
+                                                <button type='submit' name='delete' class='btn btn-danger'>Delete</button>
+                                                <a href='HomeAdmin/showMovieDetailsAdmin/" . htmlspecialchars($movie["movie_id"]) . "' class='btn btn-secondary'>Detail</a>
+                                            </div>
                                         </td>
                                     </tr>
                                 ";
