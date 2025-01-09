@@ -6,27 +6,27 @@ class Movie extends Controller
     {
         $this->MovieModel = $this->model('MovieModel');
     }
-    public function show() {
+    public function showAllMovie() {
         $allMovie = $this->MovieModel->getAllMovies();
         $this->view('master', [
             'Page' => 'movies',
             'movieList' => $allMovie
         ]);
     }
-public function showById($movieId = null) {
-    // Chuyển đổi movieId sang kiểu int
-    $movieId = (int)$movieId; // Sử dụng giá trị từ tham số truyền vào
+    public function showById($movieId = null) {
+        // Chuyển đổi movieId sang kiểu int
+        $movieId = (int)$movieId; // Sử dụng giá trị từ tham số truyền vào
 
-    // Kiểm tra sự tồn tại của user_id trong session
-    if (isset($_SESSION['user_id'])) {
-        $userId = (int)$_SESSION['user_id'];
-    } else {
-        // Xử lý trường hợp không có user_id trong session
-        $this->view('master', [
-            'Page' => 'error',
-            'message' => 'User ID is not set in session.'
-        ]);
-        return;
+        // Kiểm tra sự tồn tại của user_id trong session
+        if (isset($_SESSION['user_id'])) {
+            $userId = (int)$_SESSION['user_id'];
+        } else {
+            // Xử lý trường hợp không có user_id trong session
+            $this->view('master', [
+                'Page' => 'error',
+                'message' => 'User ID is not set in session.'
+            ]);
+            return;
     }
 
     // Đảm bảo ID hợp lệ trước khi tiếp tục
@@ -43,46 +43,51 @@ public function showById($movieId = null) {
             return;
         }
 
-        $this->MovieModel->addView($movieId);
-        $views = $this->MovieModel->getMovieViews($movieId);
-        $likes = $this->MovieModel->getMovieLike($movieId); // Không gọi addLike ở đây
-        $history = $this->MovieModel->addHistory($movieId, $userId);
-
-        $this->view('master', [
-            'Page' => 'watchMovie',
-            'movieId' => $movie,
-            'views' => $views,
-            'likes' => $likes // Chỉ lấy số lượt thích mà không thêm
-        ]);
-    } else {
-        // Xử lý trường hợp ID không hợp lệ
-        $this->view('master', [
-            'Page' => 'error',
-            'message' => 'Invalid movie ID.'
-        ]);
+            $this->MovieModel->addView($movieId);
+            $views = $this->MovieModel->getMovieViews($movieId);
+            $likes = $this->MovieModel->getMovieLike($movieId); // Không gọi addLike ở đây
+            $history = $this->MovieModel->addHistory($movieId, $userId);
+            $liked = $this->MovieModel->checkLike($userId, $movieId);
+            $addedCollection = $this->MovieModel->checkCollection($userId, $movieId);
+            $comment = $this->MovieModel->getCommentsByMovieId($movieId);
+            $this->view('master', [
+                'Page' => 'watchMovie',
+                'movieId' => $movie,
+                'views' => $views,
+                'likes' => $likes,
+                'isLiked'=>$liked,
+                'isAdded'=>$addedCollection,
+                'comments' => $comment
+            ]);
+        } else {
+            // Xử lý trường hợp ID không hợp lệ
+            $this->view('master', [
+                'Page' => 'error',
+                'message' => 'Invalid movie ID.'
+            ]);
+        }
     }
-}
     public function addLike() {
-    // Kiểm tra sự tồn tại của user_id trong session
-    if (!isset($_SESSION['user_id'])) {
-        echo json_encode(['status' => 'error', 'message' => 'User not logged in']);
-        return;
+        // Kiểm tra sự tồn tại của user_id trong session
+        if (!isset($_SESSION['user_id'])) {
+            echo json_encode(['status' => 'error', 'message' => 'User not logged in']);
+            return;
+        }
+
+        $userId = (int)$_SESSION['user_id']; 
+        $movieId = (int)$_POST['movie_id']; 
+
+        // Thêm hoặc xóa lượt thích
+        $result = $this->MovieModel->addLike($userId, $movieId);
+
+        if ($result) {
+            echo 'success!!!';
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Something went wrong']);
+        }
     }
 
-    $userId = (int)$_SESSION['user_id']; // Lấy userId từ session
-    $movieId = (int)$_POST['movie_id']; // Lấy movieId từ POST
-
-    // Thêm hoặc xóa lượt thích
-    $result = $this->MovieModel->addLike($userId, $movieId);
-
-    if ($result) {
-        echo 'success!!!';
-    } else {
-        echo json_encode(['status' => 'error', 'message' => 'Something went wrong']);
-    }
-}
     public function showDetail($movieId = null, $typeId = null) {
-
         if ($movieId && $typeId) {
             $movie = $this->MovieModel->getMovieById($movieId);
             $relateMovies = $this->MovieModel->getRelatedMovies($movieId, $typeId);

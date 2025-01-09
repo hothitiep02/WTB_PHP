@@ -8,18 +8,6 @@ class HomeAdmin  extends Controller
         $this->MovieModel = $this->model('MovieModel');
     }
 
-// public function show() {
-//     $movies = $this->MovieModel->getAllMovies();
-
-//     // Truyền dữ liệu bằng cách sử dụng extract
-//     extract([
-//         'movies' => $movies
-//     ]);
-
-//     // Include file view
-//     require 'C:/xamppp/htdocs/WTB_PHP/app/views/pages/manageMovie.view.php';
-// }
-
 public function show() {
     $movies = $this->MovieModel->getAllMovies();
     $this->view('master', [
@@ -81,4 +69,64 @@ public function show() {
         // Redirect to the movie management page after deleting
         header('Location: /movieController/index');
     }
-}
+
+    public function showMovieDetailsAdmin($movieId = null) {
+        if ($movieId > 0) {
+            $movie = $this->MovieModel->getMovieById($movieId);
+            $comment = $this->MovieModel->getCommentsByMovieId($movieId);
+            $views = $this->MovieModel->getMovieViews($movieId);
+            $likes = $this->MovieModel->getMovieLike($movieId); 
+            $this->view('master', [
+                'Page' => 'Admin/mvDetailManage',
+                'movieId' => $movie,
+                'comments' => $comment,
+                'likes' => $likes,
+                'views' => $views
+            ]);
+        } else {
+            $this->view('master', [
+                'Page' => 'error',
+                'message' => 'Invalid movie ID.'
+            ]);
+        }
+    }
+
+    public function deleteComment($commentId, $movieId) {
+        if ($this->MovieModel->deleteComment($commentId, $movieId)) {
+            // Chuyển hướng lại trang chi tiết phim sau khi xóa thành công
+            header("Location: /WTB_PHP/HomeAdmin/showMovieDetailsAdmin/" . htmlspecialchars($movieId));
+            exit();
+        } else {
+            echo "Lỗi khi xóa bình luận.";
+        }
+    }
+
+    public function addComment() {
+        // Kiểm tra sự tồn tại của user_id trong session
+        if (!isset($_SESSION['user_id'])) {
+            echo json_encode(['status' => 'error', 'message' => 'User not logged in']);
+            return;
+        }
+    
+        $userId = (int)$_SESSION['user_id']; 
+        $movieId = (int)$_POST['movie_id']; 
+    
+        // Kiểm tra xem comment_text có tồn tại và không rỗng không
+        if (!isset($_POST['comment_text']) || empty(trim($_POST['comment_text']))) {
+            echo json_encode(['status' => 'error', 'message' => 'Comment cannot be empty']);
+            return;
+        }
+    
+        $content = trim($_POST['comment_text']); 
+        $result = $this->MovieModel->addComment($movieId, $userId, $content);
+    
+        if ($result) {
+            echo json_encode(['status' => 'success', 'message' => 'Comment added successfully']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to add comment']);
+        }
+    }
+    
+    }
+
+?>
