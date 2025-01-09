@@ -9,7 +9,7 @@
     
 </head>
 <style>
-    body {
+body {
     background-color: black;
 }
 
@@ -27,7 +27,6 @@
     font-size: 14px;
 }
 
-/* CSS cho table */
 .table {
     table-layout: fixed;
     width: 100%;
@@ -91,11 +90,6 @@
 #movieTable th:nth-child(6), #movieTable td:nth-child(6) {
     width: 130px;
 }
-
-/* #movieTable th:nth-child(7), #movieTable td:nth-child(7) {
-    width: 150px;
-} */
-
 .btn_ud button {
     display: block;
     margin-bottom: 10px;
@@ -125,85 +119,85 @@
     align-items: center;
 }
 
-        .create-movie-container {
-            background-color: #111;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-            width: 700px;
-            text-align: center;
-            position: absolute;
-            top: 200px;
-            left: 200px;
-            
-        }
+.create-movie-container {
+    background-color: #111;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    width: 700px;
+    text-align: center;
+    position: absolute;
+    top: 200px;
+    left: 200px;
+    
+}
 
-        .create-movie-container img {
-            width: 50px;
-            margin-bottom: 20px;
-        }
+.create-movie-container img {
+    width: 50px;
+    margin-bottom: 20px;
+}
 
-        .create-movie-container h1 {
-            font-size: 30px;
-            margin-bottom: 20px;
-            color:white;
-        }
+.create-movie-container h1 {
+    font-size: 30px;
+    margin-bottom: 20px;
+    color:white;
+}
 
-        .create-movie-container input, textarea {
-            width: 600px;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 5px;
-            border: none;
-            font-size: 18px;
-            
-        }
+.create-movie-container input, textarea {
+    width: 600px;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 5px;
+    border: none;
+    font-size: 18px;
+    
+}
 
-        .create-movie-container input[type="text"], 
-        .create-movie-container input[type="url"] {
-            background-color:white;
-            color: black;
-        }
+.create-movie-container input[type="text"], 
+.create-movie-container input[type="url"] {
+    background-color:white;
+    color: black;
+}
 
-        .create-movie-container button {
-            width: 100px;
-            padding: 10px;
-            background-color: #ffd700;
-            color: #000;
-            border: none;
-            border-radius: 5px;
-            font-size: 22px;
-            cursor: pointer;
-        }
+.create-movie-container button {
+    width: 100px;
+    padding: 10px;
+    background-color: #ffd700;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    font-size: 22px;
+    cursor: pointer;
+}
 
-        .create-movie-container button:hover {
-            background-color: #ffcc00;
-        }
-        .head{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 30px;
-            /* flex-direction: column; */
-            display: flex;
-        }
-        #description{
-            margin-top: 0px;
-        }
+.create-movie-container button:hover {
+    background-color: #ffcc00;
+}
+.head{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    /* flex-direction: column; */
+    display: flex;
+}
+#description{
+    margin-top: 0px;
+}
 
-        .main-content{
-            position: relative;
-        }
-        #closeUpdateForm{
-            background-color: gray;
-            margin-left: 15px;
-        }
+.main-content{
+    position: relative;
+}
+#closeUpdateForm{
+    background-color: gray;
+    margin-left: 15px;
+}
 </style>
 <body>
     <div class="main-content">
         <div id="movieManagement" class="hidden">
             <h1 class="text-center">Movie management</h1>
-            <button id="createMovieBtn" class="add-btn btn my-3" data-bs-toggle="modal" data-bs-target="#createMovieModal">Add</button>
+            <button id="createMovieBtn" class="add-btn btn my-3" data-bs-toggle="modal" data-bs-target="#addMovieModal">Add</button>
             <table id="movieTable" class="table table-striped">
                 <thead class="table-dark">
                     <tr>
@@ -228,11 +222,11 @@
                                         <td><img src='{$movie['poster']}' class='img-thumbnail' alt='Image of {$movie['title']}'></td>
                                         <td>{$movie['created_at']}</td>
                                         <td>
-                                            <form method='POST' style='display:inline;' class='btn-form'>
+                                            <form action='./HomeAdmin/deleteMovie' method='POST' style='display:inline;' class='btn-form'>
                                                 <input type='hidden' name='movie_id' value='{$movie['movie_id']}'>
                                                 <!-- Modal Trigger -->
                                                 <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#updateMovieModal' data-id='{$movie['movie_id']}' data-title='{$movie['title']}' data-url='{$movie['movie_url']}' data-poster='{$movie['poster']}' data-type='{$movie['type_id']}'>Update</button>
-                                                <input type='submit' name='delete' class='btn btn-danger' value='Delete'>
+                                                <button class='btn btn-danger'>Delete</button>
                                                 <a href='movie-detail.php?movie_id={$movie['movie_id']}' class='btn btn-danger'>Detail</a>
                                             </form>
                                         </td>
@@ -250,7 +244,7 @@
         </div>
     </div>
     
-    <!-- Modal for updating movie -->
+
 <div class="modal fade" id="updateMovieModal" tabindex="-1" aria-labelledby="updateMovieModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -297,6 +291,50 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="addMovieModal" tabindex="-1" aria-labelledby="addMovieModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addMovieModalLabel">Add Movie</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addMovieForm" method="POST" action="./HomeAdmin/addMovie">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" name="title" id="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <input type="text" class="form-control" name="description" id="description" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="movie_url" class="form-label">Movie Url</label>
+                        <input type="text" class="form-control" name="movie_url" id="movie_url" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="poster" class="form-label">Poster Url</label>
+                        <input type="text" class="form-control" name="poster" id="poster" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="type_id" class="form-label">Thể Loại</label>
+                        <select class="form-select" name="type_id" id="type_id" required>
+                            <option value="1">Tình cảm</option>
+                            <option value="2">Hoạt hình</option>
+                            <option value="3">Kinh dị</option>
+                            <option value="4">Hài</option>
+                            <option value="5">Khoa học viễn tưởng</option>
+                            <option value="6">Âm nhạc</option>
+                            <option value="7">Võ thuật</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" name="add">Add Movie</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     var updateMovieModal = document.getElementById('updateMovieModal');
     updateMovieModal.addEventListener('show.bs.modal', function (event) {
@@ -325,6 +363,7 @@
         posterInput.value = poster;
         typeSelect.value = typeId;
     });
+
 </script>
 
 </body>

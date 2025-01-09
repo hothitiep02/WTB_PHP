@@ -181,12 +181,9 @@ public function addLike($userId, $movieId) {
         if ($stmt === false) {
             return false; 
         }
-    
         $stmt->bind_param("ii", $movieId, $userId);
-        
         $result = $stmt->execute();
-        $stmt->close();
-    
+        $stmt->close();  
         return $result; 
     }
     
@@ -214,7 +211,7 @@ function updateMovie($movie_id, $title, $description, $movie_url, $type_id, $pos
         $stmt->bind_result($count);
         $stmt->fetch();
         $stmt->close();
-    
+        
         if ($count == 0) {
             die("Invalid type_id: $type_id");
         }
@@ -226,18 +223,59 @@ function updateMovie($movie_id, $title, $description, $movie_url, $type_id, $pos
                     poster = ?, 
                     created_at = NOW() 
                 WHERE movie_id = ?";
-    
         $stmt = $this->conn->prepare($sql);
         if ($stmt === false) {
             die("Prepare failed: " . $this->conn->error);
         }
     $stmt->bind_param('sssiss', $title, $description, $movie_url, $type_id, $poster, $movie_id);
-    
         $result = $stmt->execute();
         $stmt->close();
-    
         return $result;
     }
+
+    public function deleteMovie($movie_id) {
+        $stmt =  $this->conn->prepare("DELETE FROM comment WHERE movie_id = ?");
+        $stmt->bind_param("i", $movie_id);
+        $stmt->execute();
+        $stmt =  $this->conn->prepare("DELETE FROM movies WHERE movie_id = ?");
+        $stmt->bind_param("i", $movie_id); 
+       
+        if ($stmt === false) {
+            die("Prepare failed: " . $this->conn->error);
+        }
+        $stmt->bind_param('i', $movie_id);
+        $result = $stmt->execute();
+        if (!$result) {
+            die("Error executing query: " . $stmt->error);
+        }
+        $stmt->close();
+        return $result;
+    }
+
+    public function addMovie($title, $description, $movie_url, $type_id, $poster){
+    $typeCheckQuery = "SELECT COUNT(*) FROM type WHERE type_id = ?";
+    $stmt = $this->conn->prepare($typeCheckQuery);
+    $stmt->bind_param('i', $type_id);
+    $stmt->execute();
+    $stmt->bind_result($count);
+    $stmt->fetch();
+    $stmt->close();
+
+    if ($count == 0) {
+        die("Invalid type_id: $type_id");
+    }
+    $sql = "INSERT INTO movies (title, description, movie_url, type_id, poster, created_at) 
+            VALUES (?, ?, ?, ?, ?, NOW())";
+    $stmt = $this->conn->prepare($sql);
+    if ($stmt === false) {
+        die("Prepare failed: " . $this->conn->error);
+    }
+    $stmt->bind_param('sssis', $title, $description, $movie_url, $type_id, $poster);
+    $result = $stmt->execute();
+    $stmt->close();
+    return $result;
+}
+    
 }
  
 ?>
