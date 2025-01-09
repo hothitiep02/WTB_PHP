@@ -15,8 +15,8 @@ class User extends Controller
 
     public function profile() {
         $userId = $_SESSION['user_id'];
-        echo $userId;
         $user = $this->userModel->getUserById($userId);
+
 
         $this->view('master', [
             'Page' => 'user/profile',
@@ -62,7 +62,7 @@ class User extends Controller
         // Get user info for editing
         $user = $this->userModel->getUserById($userId);
         $this->view('master', [
-            'Page' => 'auth/profile',
+            'Page' => 'user/profile',
             'user' => $user
         ]);
     }
@@ -86,7 +86,7 @@ class User extends Controller
             if ($user) {
                 // Set session or redirect
                 $_SESSION['user_id'] = $user['user_id'];
-                header('Location: home');
+                header('Location: WTB_PHP/home');
             } else {
                 // Handle login failure
                 echo "Invalid credentials.";
@@ -96,6 +96,59 @@ class User extends Controller
         // Render login form
         $this->view('master', [
             'Page' => 'user/login'
+        ]);
+    }
+    public function logout() {
+        // Hủy phiên người dùng
+        session_start(); // Bắt đầu phiên nếu chưa bắt đầu
+        session_unset(); // Xóa tất cả các biến phiên
+        session_destroy(); // Hủy phiên
+
+        // Chuyển hướng người dùng về trang đăng nhập hoặc trang chủ
+        header('Location: login'); // Hoặc 'home' tùy theo yêu cầu
+        exit(); // Kết thúc script sau khi chuyển hướng
+    }
+        public function addCollection() {
+            if (!isset($_SESSION['user_id'])) {
+                echo json_encode(['status' => 'error', 'message' => 'User not logged in']);
+                return;
+            }
+
+            $userId = (int)$_SESSION['user_id']; // Lấy userId từ session
+            $movieId = (int)$_POST['movie_id']; // Lấy movieId từ POST
+
+            $result = $this->userModel->addCollection($movieId, $userId);
+
+            if ($result) {
+                echo 'success!!!';
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Something went wrong']);
+            }
+    }
+    public function showCollection(){
+        if (!isset($_SESSION['user_id'])) {
+            echo json_encode(['status' => 'error', 'message' => 'User not logged in']);
+            return;
+        }
+        $userId = $_SESSION['user_id'];
+        $collection = $this->userModel->getCollection($userId);
+        $this->view('master', [
+            'Page' => 'user/collection',
+            'collection' => $collection,
+
+        ]);
+    }
+        public function showHistory(){
+        if (!isset($_SESSION['user_id'])) {
+            echo json_encode(['status' => 'error', 'message' => 'User not logged in']);
+            return;
+        }
+        $userId = $_SESSION['user_id'];
+        $history = $this->userModel->getHistoryByUserId($userId);
+        $this->view('master', [
+            'Page' => 'user/history',
+            'history' => $history,
+
         ]);
     }
 }

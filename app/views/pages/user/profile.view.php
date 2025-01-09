@@ -182,10 +182,20 @@
             </ul>
         </div>
         <div class="sidebar_item" id="sidebar_Account">
-            <a href="/" class="">
+            <a href="user/showCollection">
                 <i class="fa fa-cog" style="font-size:24px"></i>
                 <span>Account Setting</span>
             </a>
+        </div>
+        <div class="sidebar_item" id="sidebar_Account">
+            <a href="user/showHistory">
+                <i class="fa fa-cog" style="font-size:24px"></i>
+                <span>Account Setting</span>
+            </a>
+        </div>
+
+        <div>
+            <a href="User/Logout">Log out</a>
         </div>
     </div>
     <div id="profile_info">
