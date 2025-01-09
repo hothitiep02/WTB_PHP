@@ -81,4 +81,43 @@ public function show() {
         // Redirect to the movie management page after deleting
         header('Location: /movieController/index');
     }
+
+    public function showComment($movieId = null) {
+        // Ensure the ID is valid before proceeding
+        if ($movieId > 0) {
+            $movie = $this->MovieModel->getMovieById($movieId);
+            $comment = $this->MovieModel->getCommentsByMovieId($movieId);
+            $this->view('master', [
+                'Page' => 'mvDetailManage',
+                'movieId' => $movie,
+                'comments' => $comment
+            ]);
+        } else {
+            // Handle the case where the ID is invalid
+            $this->view('master', [
+                'Page' => 'error',
+                'message' => 'Invalid movie ID.'
+            ]);
+        }
+    }
+
+    public function deleteComment($commentId, $movieId) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            error_log("Attempting to delete comment ID: $commentId for movie ID: $movieId"); // Ghi log thông tin
+            // Gọi hàm xóa bình luận từ model
+            if ($this->MovieModel->deleteComment($commentId, $movieId)) {
+                // Chuyển hướng lại trang chi tiết phim sau khi xóa
+                header("Location: /WTB_PHP/HomeAdmin/showComment/" . $movieId);
+                exit();
+            } else {
+                // Thông báo lỗi nếu không xóa được
+                echo "Lỗi khi xóa bình luận.";
+            }
+        } else {
+            echo "Yêu cầu không hợp lệ.";
+        }
+    }
+    
 }
+
+?>

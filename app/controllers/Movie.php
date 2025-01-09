@@ -14,12 +14,13 @@ class Movie extends Controller
     }
     public function showById($movieId = null) {
         // Ensure the ID is valid before proceeding
-        echo $movieId;
         if ($movieId > 0) {
             $movie = $this->MovieModel->getMovieById($movieId);
+            $comment = $this->MovieModel->getCommentsByMovieId($movieId);
             $this->view('master', [
                 'Page' => 'watchMovie',
-                'movieId' => $movie
+                'movieId' => $movie,
+                'comments' => $comment
             ]);
         } else {
             // Handle the case where the ID is invalid
@@ -30,7 +31,6 @@ class Movie extends Controller
         }
     }
     public function showDetail($movieId = null, $typeId = null) {
-
         if ($movieId && $typeId) {
             $movie = $this->MovieModel->getMovieById($movieId);
             $relateMovies = $this->MovieModel->getRelatedMovies($movieId, $typeId);
@@ -47,6 +47,6 @@ class Movie extends Controller
             ]);
         }
     }
-    
+
 }
 ?>
