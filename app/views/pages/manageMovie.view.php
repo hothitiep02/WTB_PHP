@@ -230,6 +230,7 @@ body {
                                                 <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#updateMovieModal' data-id='{$movie['movie_id']}' data-title='{$movie['title']}' data-url='{$movie['movie_url']}' data-poster='{$movie['poster']}' data-type='{$movie['type_id']}'>Update</button>
                                                 <button class='btn btn-danger'>Delete</button>
                                                <a href='HomeAdmin/showMovieDetailsAdmin/" . htmlspecialchars($movie["movie_id"]) . "' class='btn btn-secondary'>Detail</a>
+
                                             </form>
                                         </td>
                                     </tr>
