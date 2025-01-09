@@ -56,12 +56,15 @@
                         </button>    
                     </div>
                     <div class="num_heart">
-                        <p><?php echo isset($likeCount) ? $likeCount : '0'; ?></p>
+                        <p><?php echo count($data['likes']); ?></p>
                     </div>
-                    <div class="collection_icon">
-                        <button type="submit" name="collection"><i class="fa fa-bookmark-o"></i></button>
-                    </div> 
                 </form>   
+                <div class="view" style="margin-left:20px">
+                    <i class="fa fa-eye"></i>
+                    <div class="num_view">
+                        <p><?php echo count($data['views']); ?></p>
+                    </div>
+                </div> 
             </div>
         </div>
         
@@ -76,11 +79,12 @@
         
         <div class="comment">
             <div class="num_cmt">
-            <h2><?php echo count($data['comments']); ?> Comments</h2>
+                <h2><?php echo count($data['comments']); ?> Comments</h2>
                 <div class="text_cmt">
                     <img src="https://vapa.vn/wp-content/uploads/2022/12/anh-dai-dien-dep-001.jpg" class="avarta" alt="">
                     <div class="content">
-                        <form method="post">
+                        <form method="post" action="HomeAdmin/addComment">
+                            <input type="hidden" name="movie_id" value="<?php echo htmlspecialchars($data['movieId']['movie_id']); ?>">
                             <input type="text" name="comment_text" placeholder="Nhập bình luận">
                             <div class="button_cmt">
                                 <button type="submit" name="comment">Comment</button>

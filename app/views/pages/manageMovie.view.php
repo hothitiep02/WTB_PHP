@@ -236,7 +236,7 @@
                                             <div style='display:inline;' class='btn-form'>
                                                 <button type='submit' name='update' class='btn btn-warning'>Update</button>
                                                 <button type='submit' name='delete' class='btn btn-danger'>Delete</button>
-                                                <a href='HomeAdmin/showComment/" . htmlspecialchars($movie["movie_id"]) . "' class='btn btn-secondary'>Detail</a>
+                                                <a href='HomeAdmin/showMovieDetailsAdmin/" . htmlspecialchars($movie["movie_id"]) . "' class='btn btn-secondary'>Detail</a>
                                             </div>
                                         </td>
                                     </tr>
