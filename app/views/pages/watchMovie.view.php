@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/WTB_PHP/public/css/WatchMovie.css">
 </head>
 <body>
-    <div class="watchMovie-container"">
+    <div class="watchMovie-container">
         <div class="movie_banner">
             <iframe 
                 src="<?php echo htmlspecialchars($data['movieId']['movie_url']); ?>" 
@@ -24,19 +24,35 @@
                 <h2><?php echo htmlspecialchars($data['movieId']['title']); ?></h2>
             </div>
             <div class="icon">
-                <form method="post" class= "form_icon">
+                <form method="post" class= "form_icon" action="movie/addLike">
+                    <input type="hidden" name="movie_id" value="<?php echo htmlspecialchars($data['movieId']['movie_id']); ?>">
                     <div class="heart_icon" id="heart_icon">
                         <button type="submit" name="favorite">
-                            <i class="bi bi-heart-fill"></i>
+                            <i class="bi bi-heart-fill" style="color: <?php echo $data['isLiked'] ? 'red' : 'inherit'; ?>;"></i>
                         </button>    
                     </div>
-                    <div class="num_heart">
-                        <p><?php echo isset($likeCount) ? $likeCount : '0'; ?></p>
-                    </div>
-                    <div class="collection_icon">
-                        <button type="submit" name="collection"><i class="fa fa-bookmark-o"></i></button>
-                    </div> 
                 </form>   
+                    <div class="num_heart">
+                        <p><?php echo count($data['likes']); ?></p>
+                    </div>
+                <form method="post" class= "form_icon" action="user/addCollection">
+                    <input type="hidden" name="movie_id" value="<?php echo htmlspecialchars($data['movieId']['movie_id']); ?>">
+                <div class="collection_icon" id="heart_icon">
+                    <?php if ($data['isAdded']): ?>
+                        <i class="fa fa-check" style="font-size:48px;color:red"></i>
+                    <?php else: ?>
+                        <button type="submit" name="collection">
+                            <i class="fa fa-bookmark-o"></i>
+                        </button>
+                    <?php endif; ?>
+                </div>
+                </form>
+                <div class="view" style="margin-left:20px">
+                    <i class="fa fa-eye"></i>
+                    <div class="num_view">
+                        <p><?php echo count($data['views']); ?></p>
+                    </div>
+                </div>  
             </div>
         </div>
         
@@ -55,7 +71,8 @@
                 <div class="text_cmt">
                     <img src="https://vapa.vn/wp-content/uploads/2022/12/anh-dai-dien-dep-001.jpg" class="avarta" alt="">
                     <div class="content">
-                        <form method="post">
+                        <form method="post" action="movie/addComment">
+                            <input type="hidden" name="movie_id" value="<?php echo htmlspecialchars($data['movieId']['movie_id']); ?>">
                             <input type="text" name="comment_text" placeholder="Nhập bình luận">
                             <div class="button_cmt">
                                 <button type="button" class="cancel">Cancel</button>
@@ -77,6 +94,13 @@
             </div>
         </div>
     </div>
+    <script>
+        document.getElementById('heart_icon').addEventListener('click', function() {
+            var heartIcon = this.querySelector('i');
+            heartIcon.style.color = heartIcon.style.color === 'red' ? 'inherit' : 'red';
+            // Gửi yêu cầu AJAX để cập nhật trạng thái "liked" trên server
+        });
+    </script>
     <script src="../../public/asset/js/like.js"></script>
 </body>
 </html>
