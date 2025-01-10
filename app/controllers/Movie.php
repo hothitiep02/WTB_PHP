@@ -51,7 +51,7 @@ class Movie extends Controller
             $addedCollection = $this->MovieModel->checkCollection($userId, $movieId);
             $comment = $this->MovieModel->getCommentsByMovieId($movieId);
             $this->view('master', [
-                'Page' => 'watchMovie',
+                'Page' => 'movie/watchMovie',
                 'movieId' => $movie,
                 'views' => $views,
                 'likes' => $likes,
@@ -93,7 +93,7 @@ class Movie extends Controller
             $relateMovies = $this->MovieModel->getRelatedMovies($movieId, $typeId);
             $detailView = $this->MovieModel->getMovieViews($movieId);
             $this->view('master', [
-                'Page' => 'detail',
+                'Page' => 'movie/detail',
                 'movieId' => $movie,
                 'relateMovie' =>  $relateMovies,
                 'detView' => $detailView,
