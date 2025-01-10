@@ -32,7 +32,8 @@ class User extends Controller
 
             if ($this->userModel->createUser($name, $email, $password)) {
                 // Redirect to user list or show success message
-                header('Location: user/login');
+                header('Location: ' . dirname($_SERVER['PHP_SELF']) . '/user/login');
+                
             } else {
                 // Handle error
                 echo "Error creating user.";
@@ -86,7 +87,12 @@ class User extends Controller
             if ($user) {
                 // Set session or redirect
                 $_SESSION['user_id'] = $user['user_id'];
-                header('Location: WTB_PHP/home');
+                if($user['role']='viewer'){
+                    header('Location: ' . dirname($_SERVER['PHP_SELF']) . '/home');
+                }else{
+                    header('Location: ' . dirname($_SERVER['PHP_SELF']) . '/HomeAdmin');
+
+                }
             } else {
                 // Handle login failure
                 echo "Invalid credentials.";

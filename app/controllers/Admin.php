@@ -1,7 +1,7 @@
 <?php
-class HomeAdmin  extends Controller
-    {
-        public $MovieModel;
+class Admin  extends Controller
+{
+    public $MovieModel;
 
         public function __construct()
         {

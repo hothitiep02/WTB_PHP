@@ -339,6 +339,48 @@ function updateMovie($movie_id, $title, $description, $movie_url, $type_id, $pos
     return $result;
 }
     
-}
  
+    public function getAllGenres() {
+        $query = "SELECT type_id, type_name FROM type";
+        $result = mysqli_query($this->conn, $query);
+        
+        $genres = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $genres[] = $row;
+        }
+        
+        return $genres; // Trả về danh sách thể loại phim
+    }
+    public function filterMoviesByGenre($genreId) {
+        $query = "SELECT * FROM movies WHERE type_id = ?";
+        $stmt = mysqli_prepare($this->conn, $query);
+        
+        mysqli_stmt_bind_param($stmt, "i", $genreId);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        
+        $movies = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $movies[] = $row;
+        }
+        
+        return $movies; // Trả về danh sách phim theo thể loại
+    }
+    public function searchMoviesByName($name) {
+        $query = "SELECT * FROM movies WHERE title LIKE ?";
+        $stmt = mysqli_prepare($this->conn, $query);
+        
+        $searchTerm = "%" . $name . "%"; // Thêm dấu % để tìm kiếm
+        mysqli_stmt_bind_param($stmt, "s", $searchTerm);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        
+        $movies = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $movies[] = $row;
+        }
+        
+        return $movies; // Trả về danh sách phim tìm được
+    }
+     }
 ?>
