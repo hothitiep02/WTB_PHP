@@ -41,7 +41,7 @@
                                         <td><img src='{$movie['poster']}' class='img-thumbnail' alt='Image of {$movie['title']}'></td>
                                         <td>{$movie['created_at']}</td>
                                         <td>
-                                            <form action='./HomeAdmin/deleteMovie' method='POST' style='display:inline;' class='btn-form'>
+                                            <form action='Admin/deleteMovie' method='POST' style='display:inline;' class='btn-form'>
                                                 <input type='hidden' name='movie_id' value='{$movie['movie_id']}'>
                                                 <!-- Modal Trigger -->
                                                 <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#updateMovieModal' data-id='{$movie['movie_id']}' data-title='{$movie['title']}' data-description='{$movie['description']}' data-url='{$movie['movie_url']}' data-poster='{$movie['poster']}' data-type='{$movie['type_id']}'>Update</button>
@@ -73,7 +73,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="updateMovieForm" method="POST" action="./HomeAdmin/updateMovie">
+                    <form id="updateMovieForm" method="POST" action="./Admin/updateMovie">
                         <input type="hidden" name="movie_id" id="movie_id">
                         <div class="mb-3">
                             <label for="title" class="form-label">Movie Title</label>
@@ -120,7 +120,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="addMovieForm" method="POST" action="./HomeAdmin/addMovie">
+                    <form id="addMovieForm" method="POST" action="./Admin/addMovie">
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
                             <input type="text" class="form-control" name="title" id="title" required>

@@ -27,20 +27,20 @@
     </a>
     <ul>
         <li>
-            <a href="#" class="item" id="item_History">
+            <a href="user/showHistory" class="item" id="item_History">
                 <i class="fa fa-history"></i>
                 <span>History</span>
             </a>
         </li>
         <li>
-            <a href="#" class="item" id="item_Like">
+            <a href="user/showCollection" class="item" id="item_Like">
                 <i class="fa-solid fa-bookmark"></i>
                 <span>Collection</span>
             </a>
         </li>
     </ul>
 </div>
-        <div class="sidebar_item" id="sidebar_Account">
+        <!-- <div class="sidebar_item" id="sidebar_Account">
             <a href="user/showCollection">
                 <i class="fa fa-cog" style="font-size:24px"></i>
                 <span>Account Setting</span>
@@ -51,7 +51,7 @@
                 <i class="fa fa-cog" style="font-size:24px"></i>
                 <span>Account Setting</span>
             </a>
-        </div>
+        </div> -->
 
         <div>
             <a href="User/Logout">Log out</a>

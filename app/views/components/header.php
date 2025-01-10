@@ -13,12 +13,16 @@
         <div class="nav">
             <div class="logo"><img src="/WTB_PHP/public/images/Logo WTB.jpg" alt=""></div>
             <div><a href="home">Home</a></div>
-            <div class="srch">
-                <form action="Movie/search" method="POST">
-                    <input type="text" name="search_term" placeholder="Search by movie name..." required>
-                    <button type="submit">
-                        <i class="fa fa-search"></i>
-                    </button>
+            <div class="btn_search">
+                <form action="Movie/search" method="POST" class="srch" >
+                    <div>
+                        <input type="text" name="search_term" placeholder="Search by movie name..." required>
+                    </div>
+                    <div>
+                        <button type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
                 </form>
 
             </div>

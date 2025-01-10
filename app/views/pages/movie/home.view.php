@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="/WTB_PHP/public/css/Home.css">
 </head>
 <body>
+    <div class="banner_img" style="width:100%; margin-top:-10px;">
+        <img class="slide_img" src="/WTB_PHP/public/images/banner.png" alt="" style="width:100%; height:500px;">
+    </div>
     <div class="home-container">
         <div class="section new-release">
             <h2>New Release - Movies</h2>
