@@ -6,7 +6,7 @@ class MovieModel extends Database
         parent::__construct();
     }
 
-    // Lấy tất cả phim
+
     public function getAllMovies()
     {
         $query = "SELECT * FROM movies";
@@ -21,8 +21,6 @@ class MovieModel extends Database
         }
         return $data;
     }
-
-    // Lấy thông tin phim theo ID
     public function getMovieById($id)
     {
         $query = "SELECT * FROM movies WHERE movie_id = ?";
@@ -37,8 +35,6 @@ class MovieModel extends Database
             return null;
         }
     }
-
-    // Lấy 3 phim mới nhất
     public function getLatestMovies()
     {
         $query = "SELECT * FROM movies ORDER BY created_at DESC LIMIT 3";
@@ -54,7 +50,6 @@ class MovieModel extends Database
         return $data;
     }
 
-    // Lấy phim theo thể loại (1: Romance, 2: Cartoon, 3: Horror)
     public function getMoviesByGenre($genre)
     {
         $query = "SELECT * FROM movies WHERE type_id = ?";
@@ -69,8 +64,6 @@ class MovieModel extends Database
         }
         return $data;
     }
-
-     // Lấy phim liên quan theo type_id
      public function getRelatedMovies($movieId, $typeId)
      {
          $query = "SELECT * FROM movies WHERE type_id = ? AND movie_id != ?";
@@ -90,18 +83,15 @@ public function addView($movieId) {
     $stmt = $this->conn->prepare($query);
     
     if ($stmt === false) {
-        // Xử lý lỗi khi chuẩn bị câu lệnh
-        return false; // Hoặc xử lý theo cách khác
+        return false;
     }
     
     $stmt->bind_param("i", $movieId);
     
     if ($stmt->execute()) {
-        // Nếu việc thực thi thành công, có thể trả về true hoặc thông tin khác nếu cần
         return true; 
     } else {
-        // Xử lý lỗi khi thực thi câu lệnh
-        return false; // Hoặc xử lý theo cách khác
+        return false;
     }
 }
      public function getMovieViews($movieId){
@@ -117,7 +107,6 @@ public function addView($movieId) {
          return $data;
      }
 public function addLike($userId, $movieId) {
-    // Kiểm tra xem lượt thích đã tồn tại chưa
     $checkQuery = "SELECT COUNT(*) FROM `like` WHERE movie_id = ? AND user_id = ?";
     $checkStmt = $this->conn->prepare($checkQuery);
 
@@ -132,7 +121,6 @@ public function addLike($userId, $movieId) {
     $checkStmt->close();
 
     if ($count > 0) {
-        // Nếu bản ghi đã tồn tại, xóa lượt thích
         $deleteQuery = "DELETE FROM `like` WHERE movie_id = ? AND user_id = ?";
         $deleteStmt = $this->conn->prepare($deleteQuery);
 
@@ -143,10 +131,8 @@ public function addLike($userId, $movieId) {
         $deleteStmt->bind_param("ii", $movieId, $userId);
         $deleteSuccess = $deleteStmt->execute();
         $deleteStmt->close();
-        return $deleteSuccess; // Trả về true nếu xóa thành công
+        return $deleteSuccess;
     }
-
-    // Nếu chưa tồn tại, thực hiện thêm lượt thích
     $insertQuery = "INSERT INTO `like` (user_id, movie_id) VALUES (?, ?)";
     $insertStmt = $this->conn->prepare($insertQuery);
 
@@ -156,10 +142,9 @@ public function addLike($userId, $movieId) {
 
     $insertStmt->bind_param("ii", $userId, $movieId);
 
-    // Kiểm tra kết quả thực thi
     $insertSuccess = $insertStmt->execute();
     $insertStmt->close();
-    return $insertSuccess; // Trả về true nếu thêm thành công
+    return $insertSuccess;
 }
     public function getMovieLike($movieId){
         $query = "SELECT * FROM `like` WHERE movie_id = ?";
@@ -178,84 +163,101 @@ public function addLike($userId, $movieId) {
                 FROM `like` 
                 WHERE user_id = ? AND movie_id = ?";
 
-        $stmt = mysqli_prepare($this->conn, $query); // Sử dụng $this->conn ở đây
+        $stmt = mysqli_prepare($this->conn, $query); 
         mysqli_stmt_bind_param($stmt, "ii", $userId, $movieId);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         
-        return mysqli_num_rows($result) > 0; // Trả về true nếu đã like, false nếu chưa
+        return mysqli_num_rows($result) > 0; 
     }
         public function checkCollection($userId, $movieId) {
             $query = "SELECT *
                     FROM collections 
                     WHERE user_id = ? AND movie_id = ?";
 
-            $stmt = mysqli_prepare($this->conn, $query); // Sử dụng $this->conn ở đây
+            $stmt = mysqli_prepare($this->conn, $query); 
             mysqli_stmt_bind_param($stmt, "ii", $userId, $movieId);
             mysqli_stmt_execute($stmt);
             $result = mysqli_stmt_get_result($stmt);
-            return mysqli_num_rows($result) > 0; // Trả về true nếu đã like, false nếu chưa
+            return mysqli_num_rows($result) > 0; 
         }
     public function addHistory($movieId, $userId) {
-    // Kiểm tra xem bản ghi đã tồn tại chưa
-    $checkQuery = "SELECT COUNT(*) FROM history WHERE movie_id = ? AND user_id = ?";
-    $checkStmt = $this->conn->prepare($checkQuery);
-
-    if ($checkStmt === false) {
-        return false; // Xử lý lỗi khi chuẩn bị câu lệnh
-    }
-
-    $checkStmt->bind_param("ii", $movieId, $userId);
-    $checkStmt->execute();
-    $checkStmt->bind_result($count);
-    $checkStmt->fetch();
-    $checkStmt->close();
-
-    // Nếu bản ghi đã tồn tại, không thực hiện thêm và không làm gì hết
-    if ($count > 0) {
-        return; // Không làm gì cả và kết thúc hàm
-    }
-
-    // Nếu chưa tồn tại, thực hiện thêm
-    $query = "INSERT INTO history (movie_id, user_id) VALUES (?, ?)";
-    $stmt = $this->conn->prepare($query);
+        $checkQuery = "SELECT COUNT(*) FROM history WHERE movie_id = ? AND user_id = ?";
+        $checkStmt = $this->conn->prepare($checkQuery);
     
-    if ($stmt === false) {
-        return false; // Xử lý lỗi khi chuẩn bị câu lệnh
-    }
-
-    $stmt->bind_param("ii", $movieId, $userId);
-    
-    $result = $stmt->execute();
-    $stmt->close(); // Đóng statement sau khi sử dụng
-
-    return $result; // Trả về true nếu thêm thành công, false nếu không
-}
-    public function addComment($movieId, $userId, $content) {
-        // Kiểm tra xem nội dung bình luận có hợp lệ không
-        if (empty($content)) {
-            return false; // Không cho phép bình luận rỗng
+        if ($checkStmt === false) {
+            return false; 
         }
-
-        // Câu lệnh SQL để thêm bình luận
+    
+        $checkStmt->bind_param("ii", $movieId, $userId);
+        $checkStmt->execute();
+        $checkStmt->bind_result($count);
+        $checkStmt->fetch();
+        $checkStmt->close();
+        
+        if ($count > 0) {
+            return; 
+        }
+        $query = "INSERT INTO history (movie_id, user_id) VALUES (?, ?)";
+        $stmt = $this->conn->prepare($query);
+        
+        if ($stmt === false) {
+            return false; 
+        }
+        $stmt->bind_param("ii", $movieId, $userId);
+        $result = $stmt->execute();
+        $stmt->close();  
+        return $result; 
+    }
+    
+    public function addComment($movieId, $userId, $content) {
+        if (empty($content)) {
+            return false; 
+        }
         $query = "INSERT INTO comment (movie_id, user_id, content) VALUES (?, ?, ?)";
         $stmt = $this->conn->prepare($query);
 
         if ($stmt === false) {
-            return false; // Xử lý lỗi khi chuẩn bị câu lệnh
+            return false;
         }
-
-        // Ràng buộc tham số
         $stmt->bind_param("iis", $movieId, $userId, $content);
-        
-        // Thực thi câu lệnh
         $result = $stmt->execute();
-        $stmt->close(); // Đóng statement sau khi sử dụng
-
-        return $result; // Trả về true nếu thêm thành công, false nếu không
+        $stmt->close(); 
+        return $result; 
     }
+     
+function updateMovie($movie_id, $title, $description, $movie_url, $type_id, $poster) {
+        $typeCheckQuery = "SELECT COUNT(*) FROM type WHERE type_id = ?";
+        $stmt = $this->conn->prepare($typeCheckQuery);
+        $stmt->bind_param('i', $type_id);
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        $stmt->close();
+        
+        if ($count == 0) {
+            die("Invalid type_id: $type_id");
+        }
+        $sql = "UPDATE movies SET 
+                    title = ?, 
+                    description = ?, 
+                    movie_url = ?, 
+                    type_id = ?, 
+                    poster = ?, 
+                    created_at = NOW() 
+                WHERE movie_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        if ($stmt === false) {
+            die("Prepare failed: " . $this->conn->error);
+        }
+    $stmt->bind_param('sssiss', $title, $description, $movie_url, $type_id, $poster, $movie_id);
+        $result = $stmt->execute();
+        $stmt->close();
 
-     // Lấy comment theo movie_id
+        return $result; 
+}
+
+
     public function getCommentsByMovieId($movieId)
     {
         $query = "SELECT c.comment_id, c.content, u.user_name, u.image FROM comment c
@@ -278,16 +280,66 @@ public function addLike($userId, $movieId) {
         $stmt = $this->conn->prepare($query);
     
         if ($stmt === false) {
-            die('MySQL prepare error: ' . $this->conn->error); // Thêm kiểm tra lỗi SQL
+            die('MySQL prepare error: ' . $this->conn->error); 
         }
         $stmt->bind_param("ii", $commentId, $movieId);
         if ($stmt->execute()) {
-            return true; // Trả về true nếu xóa thành công
+            return true; 
         } else {
-            // In ra lỗi nếu không xóa được
+
             die("Error executing delete: " . $stmt->error);
         }
     }
+    
+    //  }
+    //     $stmt->close();
+    //     return $result;
+    // }
+
+    public function deleteMovie($movie_id) {
+        $stmt =  $this->conn->prepare("DELETE FROM comment WHERE movie_id = ?");
+        $stmt->bind_param("i", $movie_id);
+        $stmt->execute();
+        $stmt =  $this->conn->prepare("DELETE FROM movies WHERE movie_id = ?");
+        $stmt->bind_param("i", $movie_id); 
+       
+        if ($stmt === false) {
+            die("Prepare failed: " . $this->conn->error);
+        }
+        $stmt->bind_param('i', $movie_id);
+        $result = $stmt->execute();
+        if (!$result) {
+            die("Error executing query: " . $stmt->error);
+        }
+        $stmt->close();
+        return $result;
+    }
+
+    public function addMovie($title, $description, $movie_url, $type_id, $poster){
+    $typeCheckQuery = "SELECT COUNT(*) FROM type WHERE type_id = ?";
+    $stmt = $this->conn->prepare($typeCheckQuery);
+    $stmt->bind_param('i', $type_id);
+    $stmt->execute();
+    $stmt->bind_result($count);
+    $stmt->fetch();
+    $stmt->close();
+
+    if ($count == 0) {
+        die("Invalid type_id: $type_id");
+    }
+    $sql = "INSERT INTO movies (title, description, movie_url, type_id, poster, created_at) 
+            VALUES (?, ?, ?, ?, ?, NOW())";
+    $stmt = $this->conn->prepare($sql);
+    if ($stmt === false) {
+        die("Prepare failed: " . $this->conn->error);
+    }
+    $stmt->bind_param('sssis', $title, $description, $movie_url, $type_id, $poster);
+    $result = $stmt->execute();
+    $stmt->close();
+    return $result;
+}
+    
+ 
     public function getAllGenres() {
         $query = "SELECT type_id, type_name FROM type";
         $result = mysqli_query($this->conn, $query);
