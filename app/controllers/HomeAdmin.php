@@ -12,7 +12,8 @@ class HomeAdmin  extends Controller
             $movies = $this->MovieModel->getAllMovies();
             $this->view('master', [
                 'Page' => 'manageMovie',
-                'movies' => $movies
+                'movies' => $movies,
+
             ]);
         }
 
@@ -33,9 +34,13 @@ class HomeAdmin  extends Controller
             $result = $this->MovieModel->updateMovie($movieId, $movieName, $description, $movieUrl, $typeMovie, $poster);
 
             if ($result) {
-                echo "success";
+                header("Location: /WTB_PHP/HomeAdmin/show/updateMovie/$movieId");
+                exit();
             } else {
-                echo "Error updating Movie.";
+                $this->view('master', [
+                    'Page' => 'manageMovie',
+                    'error' => 'Error updating Movie.'
+                ]);
             }
         }
     
@@ -48,9 +53,13 @@ class HomeAdmin  extends Controller
             $result = $this->MovieModel->deleteMovie($movieId);
 
             if ($result) {
-                echo "success";
+                header("Location: /WTB_PHP/HomeAdmin/show/deleteMovie");
+                exit();
             } else {
-                echo "Error deleting movie.";
+                $this->view('master', [
+                    'Page' => 'manageMovie',
+                    'error' => 'Error deleting movie.'
+                ]);
             }
         }
 
@@ -65,9 +74,13 @@ class HomeAdmin  extends Controller
                 $result = $this->MovieModel->addMovie($title, $description, $movieUrl, $typeId, $poster);
 
                 if ($result) {
-                    echo "success";
+                    header("Location: /WTB_PHP/HomeAdmin/show/addMovie");
+                    exit();
                 } else {
-                    echo "Error adding movie.";
+                    $this->view('master', [
+                        'Page' => 'manageMovie',
+                        'error' => 'Error adding movie.'
+                    ]);
                 }
             }
         }
