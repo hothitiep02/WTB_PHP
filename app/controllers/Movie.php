@@ -6,11 +6,13 @@ class Movie extends Controller
     {
         $this->MovieModel = $this->model('MovieModel');
     }
-    public function showAllMovie() {
+    public function show() {
+        $genres = $this->MovieModel->getAllGenres();
         $allMovie = $this->MovieModel->getAllMovies();
         $this->view('master', [
-            'Page' => 'movies',
-            'movieList' => $allMovie
+            'Page' => 'movie/movies',
+            'movieList' => $allMovie,
+            'genres' => $genres
         ]);
     }
     public function showById($movieId = null) {
@@ -132,7 +134,40 @@ public function addComment() {
         echo json_encode(['status' => 'error', 'message' => 'Failed to add comment']);
     }
 }
-    
+    public function filterByGenre() {
+        $genres = $this->MovieModel->getAllGenres();
+        if (isset($_POST['genre'])) {
+            $genreId = (int)$_POST['genre']; // Lấy genre_id từ POST
+            $movies = $this->MovieModel->filterMoviesByGenre($genreId);
+            
+            $this->view('master', [
+                'Page' => 'movie/movies',
+                'movieList' => $movies,
+                'genres' => $genres
+
+            ]);
+        } else {
+            // Nếu không có genre được chọn, có thể hiển thị tất cả phim
+            $this->show();
+        }
+    }
+    public function search() {
+        $genres = $this->MovieModel->getAllGenres();
+
+        if (isset($_POST['search_term'])) {
+            $searchTerm = $_POST['search_term'];
+            $movies = $this->MovieModel->searchMoviesByName($searchTerm);
+            
+            $this->view('master', [
+                'Page' => 'movie/movies',
+                'movieList' => $movies,
+                'genres' => $genres
+
+            ]);
+        } else {
+            $this->show(); // Hiện thị tất cả nếu không có tìm kiếm
+        }
+    }
 }
 ?>
 

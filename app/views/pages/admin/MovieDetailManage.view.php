@@ -83,7 +83,7 @@
                 <div class="text_cmt">
                     <img src="https://vapa.vn/wp-content/uploads/2022/12/anh-dai-dien-dep-001.jpg" class="avarta" alt="">
                     <div class="content">
-                        <form method="post" action="HomeAdmin/addComment">
+                        <form method="post" action="Admin/addComment">
                             <input type="hidden" name="movie_id" value="<?php echo htmlspecialchars($data['movieId']['movie_id']); ?>">
                             <input type="text" name="comment_text" placeholder="Nhập bình luận">
                             <div class="button_cmt">
@@ -106,7 +106,7 @@
                                         <p><?php echo nl2br(htmlspecialchars($comment['content'])); ?></p>
                                     </div>
                                     <div>
-                                        <form method="post" action="/WTB_PHP/HomeAdmin/deleteComment/<?php echo $comment['comment_id']; ?>/<?php echo $data['movieId']['movie_id']; ?>" 
+                                        <form method="post" action="/WTB_PHP/Admin/deleteComment/<?php echo $comment['comment_id']; ?>/<?php echo $data['movieId']['movie_id']; ?>" 
                                                 onsubmit="return confirm('Bạn có chắc muốn xóa bình luận này?');">
                                                 <button type="submit" class="delete_comment">Delete</button>
                                         </form>

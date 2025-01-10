@@ -124,7 +124,7 @@
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
-                    <p>Chưa có bình luận nào.</p>
+                    <p>Chưa có bình luận nào. Hãy là người bình luận đầu tiên.</p>
                 <?php endif; ?>
             </div>
         </div>

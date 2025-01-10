@@ -14,11 +14,12 @@
     display: flex; /* Sử dụng Flexbox */
     flex-wrap: wrap; /* Cho phép các phần tử xuống dòng */
     justify-content: space-between; /* Căn giữa các cột */
+    color: white;
 }
 
 .movie {
-    background-color: #fff;
-    border: 1px solid #ddd;
+    background-color: black;
+    border: 1px solid black;
     border-radius: 8px;
     padding: 10px;
     margin: 10px 0; /* Giữ khoảng cách trên và dưới */
@@ -51,7 +52,7 @@
     display: inline-block;
     padding: 8px 16px;
     margin: 5px 0;
-    background-color: #28a745;
+    background-color: red;
     color: white;
     text-decoration: none;
     border-radius: 4px;
@@ -59,7 +60,7 @@
 }
 
 .watch-button:hover {
-    background-color: #218838;
+    background-color: red;
 }
     </style>
 </head>

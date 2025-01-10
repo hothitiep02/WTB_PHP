@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,12 +14,15 @@
             <div class="logo"><img src="/WTB_PHP/public/images/Logo WTB.jpg" alt=""></div>
             <div><a href="home">Home</a></div>
             <div class="srch">
-                <input type="text" placeholder="Search...">
-                <button type="submit">
-                    <i class="fa fa-search"></i>
-                </button>
+                <form action="Movie/search" method="POST">
+                    <input type="text" name="search_term" placeholder="Search by movie name..." required>
+                    <button type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form>
+
             </div>
-            <div><a href="movies">Movies</a></div>
+            <div><a href="movie">Movies</a></div>
             <div class="auth">
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <div id="user-icon" class="user-icon">
