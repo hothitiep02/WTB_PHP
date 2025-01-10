@@ -67,7 +67,7 @@ class Admin  extends Controller
             exit();
         } else {
             $this->view('master', [
-                'Page' => 'MovieManage',
+                'Page' => 'admin/MovieManage',
                 'error' => 'Error updating Movie.'
             ]);
         }
@@ -86,7 +86,7 @@ class Admin  extends Controller
             exit();
         } else {
             $this->view('master', [
-                'Page' => 'MovieManage',
+                'Page' => 'admin/MovieManage',
                 'error' => 'Error deleting movie.'
             ]);
         }
@@ -107,7 +107,7 @@ class Admin  extends Controller
                 exit();
             } else {
                 $this->view('master', [
-                    'Page' => 'MovieManage',
+                    'Page' => 'admin/MovieManage',
                     'error' => 'Error adding movie.'
                 ]);
             }
