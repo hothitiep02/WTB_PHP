@@ -1,5 +1,5 @@
 <?php
-class HomeAdmin  extends Controller
+class Admin  extends Controller
 {
     public $MovieModel;
 

@@ -48,7 +48,7 @@
     display: inline-block;
     padding: 8px 16px;
     margin: 5px 0;
-    background-color: #28a745;
+    background-color: red;
     color: white;
     text-decoration: none;
     border-radius: 4px;
@@ -56,7 +56,7 @@
 }
 
 .watch-button:hover {
-    background-color: #218838;
+    background-color: red;
 }
     </style>
 </head>
