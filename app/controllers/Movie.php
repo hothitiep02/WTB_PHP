@@ -10,7 +10,7 @@ class Movie extends Controller
         $genres = $this->MovieModel->getAllGenres();
         $allMovie = $this->MovieModel->getAllMovies();
         $this->view('master', [
-            'Page' => 'movies',
+            'Page' => 'movie/movies',
             'movieList' => $allMovie,
             'genres' => $genres
         ]);
@@ -53,7 +53,7 @@ class Movie extends Controller
             $addedCollection = $this->MovieModel->checkCollection($userId, $movieId);
             $comment = $this->MovieModel->getCommentsByMovieId($movieId);
             $this->view('master', [
-                'Page' => 'watchMovie',
+                'Page' => 'movie/watchMovie',
                 'movieId' => $movie,
                 'views' => $views,
                 'likes' => $likes,
@@ -95,7 +95,7 @@ class Movie extends Controller
             $relateMovies = $this->MovieModel->getRelatedMovies($movieId, $typeId);
             $detailView = $this->MovieModel->getMovieViews($movieId);
             $this->view('master', [
-                'Page' => 'detail',
+                'Page' => 'movie/detail',
                 'movieId' => $movie,
                 'relateMovie' =>  $relateMovies,
                 'detView' => $detailView,
@@ -141,7 +141,7 @@ public function addComment() {
             $movies = $this->MovieModel->filterMoviesByGenre($genreId);
             
             $this->view('master', [
-                'Page' => 'movies',
+                'Page' => 'movie/movies',
                 'movieList' => $movies,
                 'genres' => $genres
 
@@ -159,7 +159,7 @@ public function addComment() {
             $movies = $this->MovieModel->searchMoviesByName($searchTerm);
             
             $this->view('master', [
-                'Page' => 'movies',
+                'Page' => 'movie/movies',
                 'movieList' => $movies,
                 'genres' => $genres
 

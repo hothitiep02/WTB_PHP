@@ -25,6 +25,7 @@ class UserModel extends Controller {
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
+
     public function getCollection($userId) {
         // Câu lệnh SQL
         $sql = "SELECT c.collection_id, m.movie_id, m.title, m.poster
@@ -48,42 +49,42 @@ class UserModel extends Controller {
         // Trả về tất cả các kết quả dưới dạng mảng
         return $result->fetch_all(MYSQLI_ASSOC);
     }
-public function addCollection($movieId, $userId) {
-    // Kiểm tra xem bản ghi đã tồn tại chưa
-    $checkQuery = "SELECT COUNT(*) FROM Collections WHERE movie_id = ? AND user_id = ?";
-    $checkStmt = $this->db->conn->prepare($checkQuery);
+    public function addCollection($movieId, $userId) {
+        // Kiểm tra xem bản ghi đã tồn tại chưa
+        $checkQuery = "SELECT COUNT(*) FROM Collections WHERE movie_id = ? AND user_id = ?";
+        $checkStmt = $this->db->conn->prepare($checkQuery);
 
-    if ($checkStmt === false) {
-        return false; // Xử lý lỗi khi chuẩn bị câu lệnh
+        if ($checkStmt === false) {
+            return false; // Xử lý lỗi khi chuẩn bị câu lệnh
+        }
+
+        $checkStmt->bind_param("ii", $movieId, $userId);
+        $checkStmt->execute();
+        $checkStmt->bind_result($count);
+        $checkStmt->fetch();
+        $checkStmt->close();
+
+        // Nếu bản ghi đã tồn tại, không thực hiện thêm
+        if ($count > 0) {
+            return false; // Có thể trả về một thông báo khác nếu cần
+        }
+
+        // Nếu chưa tồn tại, thực hiện thêm
+        $query = "INSERT INTO Collections (movie_id, user_id) VALUES (?, ?)";
+        $stmt = $this->db->conn->prepare($query);
+
+        if ($stmt === false) {
+            return false; // Xử lý lỗi khi chuẩn bị câu lệnh
+        }
+
+        $stmt->bind_param("ii", $movieId, $userId);
+        
+        // Thực hiện câu lệnh INSERT và trả về kết quả
+        $result = $stmt->execute();
+        $stmt->close(); // Đóng statement sau khi sử dụng
+
+        return $result; // Trả về true nếu thêm thành công, false nếu không
     }
-
-    $checkStmt->bind_param("ii", $movieId, $userId);
-    $checkStmt->execute();
-    $checkStmt->bind_result($count);
-    $checkStmt->fetch();
-    $checkStmt->close();
-
-    // Nếu bản ghi đã tồn tại, không thực hiện thêm
-    if ($count > 0) {
-        return false; // Có thể trả về một thông báo khác nếu cần
-    }
-
-    // Nếu chưa tồn tại, thực hiện thêm
-    $query = "INSERT INTO Collections (movie_id, user_id) VALUES (?, ?)";
-    $stmt = $this->db->conn->prepare($query);
-
-    if ($stmt === false) {
-        return false; // Xử lý lỗi khi chuẩn bị câu lệnh
-    }
-
-    $stmt->bind_param("ii", $movieId, $userId);
-    
-    // Thực hiện câu lệnh INSERT và trả về kết quả
-    $result = $stmt->execute();
-    $stmt->close(); // Đóng statement sau khi sử dụng
-
-    return $result; // Trả về true nếu thêm thành công, false nếu không
-}
     public function createUser($name, $email, $password) {
         $query = "INSERT INTO users (user_name, email, password) VALUES (?, ?, ?)";
         $stmt = $this->db->conn->prepare($query);
@@ -100,10 +101,23 @@ public function addCollection($movieId, $userId) {
     }
 
     public function deleteUser($userId) {
+        $stmt =  $this->db->conn->prepare("DELETE FROM comment WHERE user_id = ?");
+        $stmt->bind_param("i", $userId );
+        $stmt->execute();
         $query = "DELETE FROM users WHERE user_id = ?";
         $stmt = $this->db->conn->prepare($query);
+    
+        if (!$stmt) {
+            die("Prepare failed: " . $this->db->conn->error);
+        }
+    
         $stmt->bind_param("i", $userId);
-        return $stmt->execute();
+    
+        if (!$stmt->execute()) {
+            die("Execute failed: " . $stmt->error);
+        }
+    
+        return $stmt->affected_rows > 0; // Trả về true nếu xóa thành công
     }
 
     public function authenticateUser($email, $password) {
@@ -115,9 +129,9 @@ public function addCollection($movieId, $userId) {
         $user = $result->fetch_assoc();
         
         if ($user && password_verify($password, $user['password'])) {
-            return $user; // Đăng nhập thành công
+            return $user; 
         }
-        return false; // Đăng nhập thất bại
+        return false; 
     }
 
     public function getHistoryByUserId($userId) {
@@ -138,6 +152,5 @@ public function addCollection($movieId, $userId) {
 
         return $history; // Trả về mảng lịch sử
     }
-    // Các phương thức khác tương tác với cơ sở dữ liệu
 }
 ?>

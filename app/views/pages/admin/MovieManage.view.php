@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/WTB_PHP/public/css/manageMovie.css">
+    <link rel="stylesheet" href="/WTB_PHP/public/css/MovieManage.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     
@@ -46,7 +46,7 @@
                                                 <!-- Modal Trigger -->
                                                 <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#updateMovieModal' data-id='{$movie['movie_id']}' data-title='{$movie['title']}' data-description='{$movie['description']}' data-url='{$movie['movie_url']}' data-poster='{$movie['poster']}' data-type='{$movie['type_id']}'>Update</button>
                                                 <button class='btn btn-danger'>Delete</button>
-                                               <a href='HomeAdmin/showMovieDetailsAdmin/" . htmlspecialchars($movie["movie_id"]) . "' class='btn btn-secondary'>Detail</a>
+                                               <a href='Admin/showMovieDetailsAdmin/" . htmlspecialchars($movie["movie_id"]) . "' class='btn btn-secondary'>Detail</a>
 
                                             </form>
                                         </td>

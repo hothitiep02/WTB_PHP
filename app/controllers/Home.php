@@ -20,7 +20,7 @@ class Home extends Controller
         $this->view('master', [
             // Dữ liệu mà mình muốn truyền vào Page của mình
             // Luôn luôn truyền trang mà mình mong muốn sẽ hiển thị ở đây
-            'Page' => 'home',
+            'Page' => 'movie/home',
             'latestMovie' => $latestMovies,
             'romanceMovie' => $romanceMovie,
             'cartoonMovie' => $cartoonMovie,
