@@ -12,7 +12,7 @@
     <div class="header-container">
         <div class="nav">
             <div class="logo"><img src="/WTB_PHP/public/images/Logo WTB.jpg" alt=""></div>
-            <div><a href="home">Home</a></div>
+            <div><a href="home" id="home">Home</a></div>
             <div class="btn_search">
                 <form action="Movie/search" method="POST" class="srch" >
                     <div>
@@ -26,11 +26,11 @@
                 </form>
 
             </div>
-            <div><a href="movie">Movies</a></div>
+            <div><a href="movie" id="movies">Movies</a></div>
             <div class="auth">
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <div id="user-icon" class="user-icon">
-                        <a href="user/profile"><i class="fa fa-user"></i></a>
+                        <a href="user/profile"><i class="fa fa-user iconUser"></i></a>
                     </div>
                 <?php else: ?>
                     <div id="login" class="auth-button">

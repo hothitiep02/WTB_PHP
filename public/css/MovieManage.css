@@ -187,3 +187,7 @@
     .mb-3 .form-control {
         margin: 0;
     }
+    #updateMovieModal{
+        display: flex;
+        justify-content: center;
+    }

@@ -5,26 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        /* Chỉ áp dụng cho phần phim */
+body{
+    background-color: rgba(0, 0, 0, 0.84);
+}
 .movie-container {
     max-width: 1200px;
     margin: auto;
     padding: 20px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Tạo 4 cột */
-    gap: 20px; /* Khoảng cách giữa các div phim */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px; 
+    
 }
 
 .movie {
-    background-color: #fff;
-    border: 1px solid #ddd;
+    background-color: #000;
     border-radius: 8px;
     padding: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
     display: flex;
-    flex-direction: column; /* Để nội dung nằm theo chiều dọc */
-    height: 400px; /* Chiều cao cố định cho div phim */
+    flex-direction: column;
+    height: 400px;
 }
 
 .movie:hover {
@@ -34,14 +36,14 @@
 .movie img {
     width: 100%;
     border-radius: 4px;
-    height: 200px; /* Chiều cao cho hình ảnh */
-    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+    height: 200px; 
+    object-fit: cover;
 }
 
 .movie-title {
     text-align: center;
     margin: 10px 0;
-    flex-grow: 1; /* Đẩy nút Watch movie xuống dưới */
+    flex-grow: 1;
 }
 
 .watch-button {
@@ -53,6 +55,7 @@
     text-decoration: none;
     border-radius: 4px;
     text-align: center;
+    font-size: 18px;
 }
 
 .watch-button:hover {
@@ -67,14 +70,14 @@
                     foreach ($data['collection'] as $movie) {
                         echo "<div class='movie'>";
                         echo "<img src='" . htmlspecialchars($movie['poster']) . "' alt='" . htmlspecialchars($movie['title']) . "' />";
-                        echo "<div class='movie_title'>";
+                        echo "<div class='movie_title' style='color: white;'>";
                         echo "<h3>" . htmlspecialchars($movie['title']) . "</h3>";
                         echo "</div>";
                         echo "<a class='watch-button' href='Movie/showById/" . htmlspecialchars($movie['movie_id']) . "'>▶ Watch movie</a>";
                         echo "</div>";
                     }
                 } else {
-                    echo "<p>No movie added!!.</p>"; // Message if no latest movies
+                    echo "<p>No movie added!!.</p>"; 
                 }
                 ?>
         </div>
