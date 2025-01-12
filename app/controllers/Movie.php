@@ -83,7 +83,7 @@ class Movie extends Controller
         $result = $this->MovieModel->addLike($userId, $movieId);
 
         if ($result) {
-            echo 'success!!!';
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Something went wrong']);
         }
@@ -129,7 +129,9 @@ public function addComment() {
     $result = $this->MovieModel->addComment($movieId, $userId, $content);
 
     if ($result) {
-        echo json_encode(['status' => 'success', 'message' => 'Comment added successfully']);
+        // Chuyển hướng về trang hiện tại
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit();
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Failed to add comment']);
     }

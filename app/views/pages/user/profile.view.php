@@ -62,7 +62,7 @@
         <div id="userProfile">
             <div class="img_upload">
                 <?php if (!empty($data['userInfo']['image'])): ?>
-                    <img src="<?php echo htmlspecialchars($data['userInfo']['image']); ?>" alt="User Avatar" id="profileImage">
+                    <img src="<?php echo htmlspecialchars('/WTB_PHP/public/images/avatar/' . $data['userInfo']['image']); ?>" alt="User Avatar" id="profileImage">
                 <?php else: ?>
                     <p>No image available.</p>
                 <?php endif; ?>
@@ -83,14 +83,14 @@
         </div>
 
         <!-- Form Update Profile (hidden by default) -->
-        <form id="editForm" action="" method="POST" enctype="multipart/form-data" style="display: none;">
-    <div class="img_upload">
-        <img id="img-user" src="<?php echo htmlspecialchars($data['userInfo']['image']); ?>" alt="User Avatar" class="image-user">
-        <div class="camera-icon">
-            <i class="fa fa-camera" style="font-size:28px"></i>
-        </div>
-        <input type="file" name="image" class="file-input" accept="image/*" onchange="updateImagePreview(event)">
-    </div>
+        <form id="editForm" action="user/update" method="POST" enctype="multipart/form-data" style="display: none;">
+            <div class="img_upload">
+                <img id="img-user" src="<?php echo htmlspecialchars($data['userInfo']['image']); ?>" alt="User Avatar" class="image-user">
+                <div class="camera-icon" onclick="document.querySelector('input[name=image]').click();">
+                    <i class="fa fa-camera" style="font-size:28px"></i>
+                </div>
+                <input type="file" name="image" class="file-input" accept="image/*" onchange="updateImagePreview(event)" style="display: none;">
+            </div>
     <hr>
     <div class="form_inf">
         <div class="mb-3">
@@ -124,19 +124,19 @@
         editForm.style.display = 'none';
         formInf.style.display = 'block';
     }
-    function updateImagePreview(event) {
-        const fileInput = event.target;
-        const imgPreview = document.getElementById('img-user');
+function updateImagePreview(event) {
+    const fileInput = event.target;
+    const imgPreview = document.getElementById('img-user');
 
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            imgPreview.src = e.target.result;
-        };
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        imgPreview.src = e.target.result; // Cập nhật ảnh xem trước
+    };
 
-        if (fileInput.files && fileInput.files[0]) {
-            reader.readAsDataURL(fileInput.files[0]);
-        }
+    if (fileInput.files && fileInput.files[0]) {
+        reader.readAsDataURL(fileInput.files[0]); // Đọc file
     }
+}
     function toggleEditForm() {
         var editForm = document.getElementById('editForm');
         var formInf = document.querySelector('.form_inf');

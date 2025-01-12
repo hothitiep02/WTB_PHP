@@ -12,9 +12,11 @@
     <div class="header-container">
         <div class="nav">
             <div class="logo"><img src="/WTB_PHP/public/images/Logo WTB.jpg" alt=""></div>
-            <div><a href="home">Home</a></div>
+            <div>
+                <a href="home">Home</a>
+            </div>
             <div class="btn_search">
-                <form action="Movie/search" method="POST" class="srch" >
+                <form action="Movie/search" method="POST" class="srch">
                     <div>
                         <input type="text" name="search_term" placeholder="Search by movie name..." required>
                     </div>
@@ -24,14 +26,25 @@
                         </button>
                     </div>
                 </form>
-
             </div>
             <div><a href="movie">Movies</a></div>
             <div class="auth">
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <div id="user-icon" class="user-icon">
-                        <a href="user/profile"><i class="fa fa-user"></i></a>
+                        <a href="user/profile">
+                            <img src="<?php echo htmlspecialchars('/WTB_PHP/public/images/avatar/' . $_SESSION['image']); ?>" 
+                                class="avarta" 
+                                alt="" 
+                                style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                        </a>
                     </div>
+                    <?php if ($_SESSION['role'] === 'admin'): ?>
+                        <div class="admin-links">
+                            <a href="admin/MovieManage">Movies</a>
+                            <a href="admin/ShowUserAdmin">Users</a>
+                            <!-- Thêm các liên kết admin khác ở đây -->
+                        </div>
+                    <?php endif; ?>
                 <?php else: ?>
                     <div id="login" class="auth-button">
                         <a href="user/login/">Login</a>
@@ -43,6 +56,5 @@
             </div>
         </div>
     </div>
-<!-- </body>
-
-</html> -->
+</body>
+</html>

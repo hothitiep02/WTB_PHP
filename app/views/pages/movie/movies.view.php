@@ -8,45 +8,48 @@
     /* Đảm bảo tất cả mã CSS được bao bọc trong một lớp cụ thể */
 .movie-page {
     font-family: Arial, sans-serif;
-    background-color: #f8f9fa; /* Màu nền nhẹ */
+    background-color: black; /* Màu nền nhẹ */
 }
 
 /* Định dạng form giống như navigation */
+/* Định dạng form giống như navigation */
 .movie-page form {
-    background-color: #343a40; /* Màu nền tối giống nav */
+    background-color: black; /* Màu nền tối giống nav */
     border-radius: 0; /* Không bo góc */
     padding: 10px 20px; /* Padding để tạo khoảng cách */
     max-width: 1000px; /* Chiều rộng tối đa cho form */
     display: flex; /* Sử dụng flexbox */
     align-items: center; /* Căn giữa dọc */
+    justify-content: center; /* Căn giữa ngang */
+    flex-wrap: wrap; /* Cho phép các phần tử xuống dòng */
 }
 
-/* Định dạng tiêu đề trong form */
+/* Định dạng các label trong form */
+.movie-page label {
+    color: white; /* Màu chữ trắng */
+    margin: 0 10px; /* Khoảng cách giữa các label */
+    text-align: center; /* Căn giữa chữ trong label */
+    flex: 0 1 auto; /* Cho phép label tự do căn chỉnh */
+}
+
+/* Định dạng button */
+.movie-page button {
+    padding: 10px 15px;
+    background-color: red; /* Màu nút */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 20px; /* Khoảng cách với các label */
+}
 .movie-page h3 {
     color: white; /* Màu chữ trắng để tương phản với nền */
     margin: 0; /* Không có khoảng cách */
     margin-right: 20px; /* Khoảng cách với các phần tử khác */
 }
 
-/* Định dạng các label trong form */
-.movie-page label {
-    color: white; /* Màu chữ trắng */
-    margin-right: 20px; /* Khoảng cách giữa các label */
-}
-
-/* Định dạng button */
-.movie-page button {
-    padding: 10px 15px;
-    background-color: #007bff; /* Màu nút */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: auto; /* Đẩy nút về bên phải */
-}
-
 .movie-page button:hover {
-    background-color: #0056b3; /* Màu nền khi hover */
+    background-color: red; /* Màu nền khi hover */
 }
 
 /* Định dạng container phim */
@@ -120,7 +123,7 @@
     display: inline-block;
     padding: 8px 16px;
     margin: 5px 0;
-    background-color: #007bff;
+    background-color: red;
     color: white;
     text-decoration: none;
     border-radius: 4px;
@@ -128,7 +131,7 @@
 }
 
 .movie-page .watch-button:hover {
-    background-color: #0056b3; /* Màu nền khi hover */
+    background-color: red; /* Màu nền khi hover */
 }
 
 /* Responsive Design */

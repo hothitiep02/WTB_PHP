@@ -8,7 +8,8 @@
     <style>
         /* Chỉ áp dụng cho phần lịch sử phim */
 .history-container {
-    max-width: 1200px;
+    max-width: 100%;
+    background-color: black;
     margin: auto;
     padding: 20px;
     display: flex; /* Sử dụng Flexbox */

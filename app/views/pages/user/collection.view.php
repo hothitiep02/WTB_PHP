@@ -5,21 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        /* Chỉ áp dụng cho phần phim */
+        /* Chỉ áp dụng cho phần lịch sử phim */
 .movie-container {
-    max-width: 1200px;
+    max-width: 100%;
+    background-color: black;
     margin: auto;
     padding: 20px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Tạo 4 cột */
-    gap: 20px; /* Khoảng cách giữa các div phim */
+    display: flex; /* Sử dụng Flexbox */
+    flex-wrap: wrap; /* Cho phép các phần tử xuống dòng */
+    justify-content: space-between; /* Căn giữa các cột */
+    color: white;
 }
 
 .movie {
-    background-color: #fff;
-    border: 1px solid #ddd;
+    background-color: black;
+    border: 1px solid black;
     border-radius: 8px;
     padding: 10px;
+    margin: 10px 0; /* Giữ khoảng cách trên và dưới */
+    width: calc(25% - 20px); /* Đặt chiều rộng cho mỗi div phim để tạo 4 cột */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
     display: flex;
@@ -38,7 +42,7 @@
     object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
 }
 
-.movie-title {
+.movie_title {
     text-align: center;
     margin: 10px 0;
     flex-grow: 1; /* Đẩy nút Watch movie xuống dưới */

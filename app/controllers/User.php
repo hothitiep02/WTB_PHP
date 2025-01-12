@@ -24,49 +24,76 @@ class User extends Controller
         ]);
     }
 
-    public function register() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $name = $_POST['fullname'];
-            $email = $_POST['email'];
-            $password = $_POST['password'];
+public function register() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'register') {
+        $fullname = $_POST['fullname'];
+        $email = $_POST['email'];
+        $password = $_POST['password']; // Mã hóa mật khẩu
+        $defaultImage = 'logo.png'; // Ảnh mặc định
 
-            if ($this->userModel->createUser($name, $email, $password)) {
-                // Redirect to user list or show success message
-                header('Location: ' . dirname($_SERVER['PHP_SELF']) . '/user/login');
-                
-            } else {
-                // Handle error
-                echo "Error creating user.";
-            }
-        }
+        // Lưu thông tin người dùng vào cơ sở dữ liệu
+        $this->userModel->createUser($fullname, $email, $password, $defaultImage);
 
-        // Render form view for creating user
-        $this->view('master', [
-            'Page' => 'user/register'
-        ]);
+        // Chuyển hướng người dùng đến trang đăng nhập hoặc trang khác
+        header('Location: login');
+        exit();
     }
 
-    public function update($userId) {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $name = $_POST['name'];
-            $email = $_POST['email'];
+    // Render trang đăng ký nếu không phải là yêu cầu POST
+    $this->view('master', [
+        'Page' => 'user/register'
+    ]);
+}
 
-            if ($this->userModel->updateUser($userId, $name, $email)) {
-                // Redirect to user list or show success message
-                header('Location: /home');
-            } else {
-                // Handle error
-                echo "Error updating user.";
-            }
+public function update() {
+    $userId = $_SESSION['user_id'];
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $name = $_POST['user_name'];
+        $email = $_POST['email'];
+        $birth = $_POST['birth'];
+        $image = null; // Khởi tạo biến hình ảnh
+
+        // Kiểm tra dữ liệu từ input
+        if (isset($_FILES['image'])) {
+            var_dump($_FILES['image']); // Kiểm tra dữ liệu file
         }
 
-        // Get user info for editing
-        $user = $this->userModel->getUserById($userId);
-        $this->view('master', [
-            'Page' => 'user/profile',
-            'user' => $user
-        ]);
+        // Xử lý upload hình ảnh
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = 'C:/xampp/htdocs/WTB_PHP/public/images/avatar/';
+            $image = time() . '_' . basename($_FILES['image']['name']);
+            $uploadFilePath = $uploadDir . $image;
+
+            if (!move_uploaded_file($_FILES['image']['tmp_name'], $uploadFilePath)) {
+                echo "Error uploading image.";
+                return;
+            }
+        } else {
+            // Nếu không có hình ảnh mới, giữ lại hình ảnh cũ
+            $currentUser = $this->userModel->getUserById($userId);
+            $image = $currentUser['image']; // Giữ lại hình ảnh cũ
+        }
+
+        // Cập nhật thông tin người dùng
+        if ($this->userModel->updateUser($userId, $name, $email, $image, $birth)) {
+            // Cập nhật lại thông tin người dùng trong session
+            $_SESSION['image'] = $image; // Lưu lại ảnh mới vào session nếu có
+            header('Location: profile');
+            exit();
+        } else {
+            error_log("Error updating user.");
+            echo "Error updating user.";
+        }
     }
+
+    // Lấy thông tin người dùng để chỉnh sửa
+    $user = $this->userModel->getUserById($userId);
+    $this->view('master', [
+        'Page' => 'user/profile',
+        'user' => $user
+    ]);
+}
 
     public function delete($userId) {
         if ($this->userModel->deleteUser($userId)) {
@@ -78,32 +105,41 @@ class User extends Controller
         }
     }
 
-    public function login() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $email = $_POST['email'];
-            $password = $_POST['password'];
+public function login() {
+    $errorMessage = ''; // Khởi tạo biến thông báo lỗi
 
-            $user = $this->userModel->authenticateUser($email, $password);
-            if ($user) {
-                // Set session or redirect
-                $_SESSION['user_id'] = $user['user_id'];
-                if($user['role']='viewer'){
-                    header('Location: ' . dirname($_SERVER['PHP_SELF']) . '/home');
-                }else{
-                    header('Location: ' . dirname($_SERVER['PHP_SELF']) . '/HomeAdmin');
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $email = $_POST['email'];
+        $password = $_POST['password'];
 
-                }
+        $user = $this->userModel->authenticateUser($email, $password);
+        if ($user) {
+            // Set session or redirect
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['role'] = $user['role'];
+            $_SESSION['image'] = $user['image'];
+            
+            // Sử dụng phép so sánh == thay vì =
+            if ($user['role'] == 'viewer') {
+                header('Location: ' . dirname($_SERVER['PHP_SELF']) . '/home');
             } else {
-                // Handle login failure
-                echo "Invalid credentials.";
+                header('Location: ' . dirname($_SERVER['PHP_SELF']) . '/Admin');
             }
+            exit(); // Dừng script sau khi redirect
+        } else {
+            // Gán thông báo lỗi nếu thông tin đăng nhập không hợp lệ
+            $errorMessage = "Invalid email or password.";
         }
-
-        // Render login form
-        $this->view('master', [
-            'Page' => 'user/login'
-        ]);
+    } else {
+        $errorMessage = 'Invalid request method.';
     }
+
+    // Render login form với thông báo lỗi (nếu có)
+    $this->view('master', [
+        'Page' => 'user/login',
+        'errorMessage' => $errorMessage // Truyền thông báo lỗi sang view
+    ]);
+}
     public function logout() {
         // Hủy phiên người dùng
         session_start(); // Bắt đầu phiên nếu chưa bắt đầu
@@ -126,7 +162,7 @@ class User extends Controller
             $result = $this->userModel->addCollection($movieId, $userId);
 
             if ($result) {
-                echo 'success!!!';
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
             } else {
                 echo json_encode(['status' => 'error', 'message' => 'Something went wrong']);
             }
