@@ -9,19 +9,22 @@ body{
     background-color: rgba(0, 0, 0, 0.84);
 }
 .movie-container {
-    max-width: 1200px;
+    max-width: 100%;
     margin: auto;
-    padding: 20px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px; 
-    
+    padding: 20px 100px;
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: space-between;
+    color: white;
 }
 
 .movie {
-    background-color: #000;
+    background-color: black;
+    border: 1px solid black;
     border-radius: 8px;
     padding: 10px;
+    margin: 10px 0;
+    width: calc(25% - 20px);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
     display: flex;
@@ -40,7 +43,7 @@ body{
     object-fit: cover;
 }
 
-.movie-title {
+.movie_title {
     text-align: center;
     margin: 10px 0;
     flex-grow: 1;
@@ -55,15 +58,23 @@ body{
     text-decoration: none;
     border-radius: 4px;
     text-align: center;
-    font-size: 18px;
+    font-size: 16px;
+    width: 170px;
+    margin-left: 35px;
 }
 
 .watch-button:hover {
     background-color: red;
 }
-    </style>
+h2{
+    margin-left: 100px;
+    color:white;
+}
+
+</style>
 </head>
 <body>
+    <h2>Collection</h2>
     <div class="movie-container">
                 <?php
                 if (is_array($data['collection']) && !empty($data['collection'])) {

@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/WTB_PHP/public/css/Profile.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Profile Container</title>
 </head>
@@ -40,21 +39,12 @@
         </li>
     </ul>
 </div>
-        <!-- <div class="sidebar_item" id="sidebar_Account">
-            <a href="user/showCollection">
-                <i class="fa fa-cog" style="font-size:24px"></i>
-                <span>Account Setting</span>
-            </a>
-        </div>
-        <div class="sidebar_item" id="sidebar_Account">
-            <a href="user/showHistory">
-                <i class="fa fa-cog" style="font-size:24px"></i>
-                <span>Account Setting</span>
-            </a>
-        </div> -->
 
         <div>
-            <a href="User/Logout">Log out</a>
+            <a href="User/Logout" style="font-size: 22px;">
+                Log out
+                <i class="fa-solid fa-right-from-bracket" style="margin-left: 10px;"></i>
+            </a>
         </div>
     </div>
     <div id="profile_info">
@@ -62,7 +52,7 @@
         <div id="userProfile">
             <div class="img_upload">
                 <?php if (!empty($data['userInfo']['image'])): ?>
-                    <img src="<?php echo htmlspecialchars($data['userInfo']['image']); ?>" alt="User Avatar" id="profileImage">
+                    <img src="<?php echo htmlspecialchars('/WTB_PHP/public/images/avatar/' . $data['userInfo']['image']); ?>" alt="User Avatar" id="profileImage">
                 <?php else: ?>
                     <p>No image available.</p>
                 <?php endif; ?>
@@ -83,14 +73,14 @@
         </div>
 
         <!-- Form Update Profile (hidden by default) -->
-        <form id="editForm" action="" method="POST" enctype="multipart/form-data" style="display: none;">
-    <div class="img_upload">
-        <img id="img-user" src="<?php echo htmlspecialchars($data['userInfo']['image']); ?>" alt="User Avatar" class="image-user">
-        <div class="camera-icon">
-            <i class="fa fa-camera" style="font-size:28px"></i>
-        </div>
-        <input type="file" name="image" class="file-input" accept="image/*" onchange="updateImagePreview(event)">
-    </div>
+        <form id="editForm" action="user/update" method="POST" enctype="multipart/form-data" style="display: none;">
+            <div class="img_upload">
+                <img id="img-user" src="<?php echo htmlspecialchars($data['userInfo']['image']); ?>" alt="User Avatar" class="image-user">
+                <div class="camera-icon" onclick="document.querySelector('input[name=image]').click();">
+                    <i class="fa fa-camera" style="font-size:28px"></i>
+                </div>
+                <input type="file" name="image" class="file-input" accept="image/*" onchange="updateImagePreview(event)" style="display: none;">
+            </div>
     <hr>
     <div class="form_inf">
         <div class="mb-3">
@@ -124,19 +114,19 @@
         editForm.style.display = 'none';
         formInf.style.display = 'block';
     }
-    function updateImagePreview(event) {
-        const fileInput = event.target;
-        const imgPreview = document.getElementById('img-user');
+function updateImagePreview(event) {
+    const fileInput = event.target;
+    const imgPreview = document.getElementById('img-user');
 
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            imgPreview.src = e.target.result;
-        };
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        imgPreview.src = e.target.result; // Cập nhật ảnh xem trước
+    };
 
-        if (fileInput.files && fileInput.files[0]) {
-            reader.readAsDataURL(fileInput.files[0]);
-        }
+    if (fileInput.files && fileInput.files[0]) {
+        reader.readAsDataURL(fileInput.files[0]); // Đọc file
     }
+}
     function toggleEditForm() {
         var editForm = document.getElementById('editForm');
         var formInf = document.querySelector('.form_inf');

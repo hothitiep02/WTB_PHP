@@ -60,17 +60,19 @@
                     <div class="num_heart">
                         <p><?php echo count($data['likes']); ?></p>
                     </div>
-                <form method="post" class= "form_icon" action="user/addCollection">
+                <form method="post" class="form_icon" action="user/addCollection">
                     <input type="hidden" name="movie_id" value="<?php echo htmlspecialchars($data['movieId']['movie_id']); ?>">
-                <div class="collection_icon" id="heart_icon">
-                    <?php if ($data['isAdded']): ?>
-                        <i class="fa fa-check" style="font-size:48px;color:red"></i>
-                    <?php else: ?>
-                        <button type="submit" name="collection">
-                            <i class="fa fa-bookmark-o"></i>
-                        </button>
-                    <?php endif; ?>
-                </div>
+                    <div class="collection_icon" id="heart_icon">
+                        <?php if ($data['isAdded']): ?>
+                            <button type="submit" name="removeCollection" style="border: none; background: none;">
+                                <i class="fa fa-check" style="font-size:48px;color:red"></i>
+                            </button>
+                        <?php else: ?>
+                            <button type="submit" name="collection" style="border: none; background: none;">
+                                <i class="fa fa-bookmark-o"></i>
+                            </button>
+                        <?php endif; ?>
+                    </div>
                 </form>
                 <div class="view" style="margin-left:20px; margin-left: 20px;display: flex;align-items: center;gap: 20px;font-size: 30px;">
                     <i class="fa fa-eye"></i>
@@ -94,7 +96,7 @@
             <div class="num_cmt">
                 <h2><?php echo count($data['comments']); ?> Comments</h2>
                 <div class="text_cmt">
-                    <img src="https://vapa.vn/wp-content/uploads/2022/12/anh-dai-dien-dep-001.jpg" class="avarta" alt="">
+                    <img src="<?php echo htmlspecialchars('/WTB_PHP/public/images/avatar/' . $_SESSION['image']); ?>" class="avarta" alt="">
                     <div class="content">
                         <form method="post" action="movie/addComment">
                             <input type="hidden" name="movie_id" value="<?php echo htmlspecialchars($data['movieId']['movie_id']); ?>">
@@ -109,7 +111,7 @@
                 <?php if (!empty($data['comments'])): ?>
                     <?php foreach ($data['comments'] as $comment): ?>
                         <div class="show_cmt">
-                            <img class="ano_avarta" src="<?php echo !empty($comment['image']) ? htmlspecialchars($comment['image']) : 'uploads/default-avatar.png'; ?>" 
+                            <img class="ano_avarta" src="<?php echo htmlspecialchars('/WTB_PHP/public/images/avatar/' . $comment['image']); ?>" 
                             alt="Avatar">
                             <div class="show_content">
                                 <div class="name_user">
@@ -135,6 +137,7 @@
             heartIcon.style.color = heartIcon.style.color === 'red' ? 'inherit' : 'red';
             // Gửi yêu cầu AJAX để cập nhật trạng thái "liked" trên server
         });
+        
     </script>
     <script src="../../public/asset/js/like.js"></script>
 </body>

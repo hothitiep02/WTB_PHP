@@ -95,7 +95,7 @@
                 <?php if (!empty($data['comments'])): ?>
                     <?php foreach ($data['comments'] as $comment): ?>
                         <div class="show_cmt">
-                            <img class="ano_avarta" src="<?php echo !empty($comment['image']) ? htmlspecialchars($comment['image']) : 'uploads/default-avatar.png'; ?>" 
+                            <img class="ano_avarta" src="<?php echo htmlspecialchars('/WTB_PHP/public/images/avatar/' . $comment['image']); ?>" 
                             alt="Avatar">
                             <div class="show_content">
                                 <div class="name_user">

@@ -12,7 +12,7 @@
     </div>
     <div class="home-container">
         <div class="section new-release">
-            <h2>New Release - Movies</h2>
+            <h2 style="font-size: 28px;">New Release - Movies</h2>
             <div class="release">
                 <?php
                 if (is_array($data['latestMovie']) && !empty($data['latestMovie'])) {
@@ -27,14 +27,14 @@
                         echo "</div>";
                     }
                 } else {
-                    echo "<p>No new releases available.</p>"; // Message if no latest movies
+                    echo "<p>No new releases available.</p>";
                 }
                 ?>
             </div>
         </div>
 
         <div class="section">
-            <h2>Romance</h2>
+            <h2 style="font-size: 28px;">Romance</h2>
             <div class="romance">
                 <?php
                 if (!empty($data['romanceMovie'])) {
@@ -54,7 +54,7 @@
 
         <!-- Cartoon Section -->
         <div class="section">
-            <h2>Cartoon</h2>
+            <h2 style="font-size: 28px;">Cartoon</h2>
             <div class="cartoon">
                 <?php
                 if (!empty($data['cartoonMovie'])) {
@@ -74,7 +74,7 @@
 
         <!-- Horror Section -->
         <div class="section">
-            <h2>Horror</h2>
+            <h2 style="font-size: 28px;">Horror</h2>
             <div class="horror">
                 <?php
                 if (!empty($data['horrorMovie'])) {

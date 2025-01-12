@@ -24,95 +24,105 @@ class User extends Controller
         ]);
     }
 
-    public function register() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $name = $_POST['fullname'];
-            $email = $_POST['email'];
-            $password = $_POST['password'];
+public function register() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'register') {
+        $fullname = $_POST['fullname'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $defaultImage = 'logo.png'; 
+        $this->userModel->createUser($fullname, $email, $password, $defaultImage);
+        header('Location: login');
+        exit();
+    }
+    $this->view('master', [
+        'Page' => 'user/register'
+    ]);
+}
 
-            if ($this->userModel->createUser($name, $email, $password)) {
-                // Redirect to user list or show success message
-                header('Location: ' . dirname($_SERVER['PHP_SELF']) . '/user/login');
-                
-            } else {
-                // Handle error
-                echo "Error creating user.";
-            }
+public function update() {
+    $userId = $_SESSION['user_id'];
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $name = $_POST['user_name'];
+        $email = $_POST['email'];
+        $birth = $_POST['birth'];
+        $image = null; 
+        if (isset($_FILES['image'])) {
+            var_dump($_FILES['image']);
         }
 
-        // Render form view for creating user
-        $this->view('master', [
-            'Page' => 'user/register'
-        ]);
-    }
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = 'C:/xamppp/htdocs/WTB_PHP/public/images/avatar/';
+            $image = time() . '_' . basename($_FILES['image']['name']);
+            $uploadFilePath = $uploadDir . $image;
 
-    public function update($userId) {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $name = $_POST['name'];
-            $email = $_POST['email'];
-
-            if ($this->userModel->updateUser($userId, $name, $email)) {
-                // Redirect to user list or show success message
-                header('Location: /home');
-            } else {
-                // Handle error
-                echo "Error updating user.";
+            if (!move_uploaded_file($_FILES['image']['tmp_name'], $uploadFilePath)) {
+                echo "Error uploading image.";
+                return;
             }
+        } else {
+            $currentUser = $this->userModel->getUserById($userId);
+            $image = $currentUser['image']; 
         }
-
-        // Get user info for editing
-        $user = $this->userModel->getUserById($userId);
-        $this->view('master', [
-            'Page' => 'user/profile',
-            'user' => $user
-        ]);
+        if ($this->userModel->updateUser($userId, $name, $email, $image, $birth)) {
+            $_SESSION['image'] = $image;
+            header('Location: profile');
+            exit();
+        } else {
+            error_log("Error updating user.");
+            echo "Error updating user.";
+        }
     }
+    $user = $this->userModel->getUserById($userId);
+    $this->view('master', [
+        'Page' => 'user/profile',
+        'user' => $user
+    ]);
+}
 
     public function delete($userId) {
         if ($this->userModel->deleteUser($userId)) {
-            // Redirect to user list or show success message
             header('Location: /user/show');
         } else {
-            // Handle error
             echo "Error deleting user.";
         }
     }
 
-    public function login() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $email = $_POST['email'];
-            $password = $_POST['password'];
+public function login() {
+    $errorMessage = '';
 
-            $user = $this->userModel->authenticateUser($email, $password);
-            if ($user) {
-                // Set session or redirect
-                $_SESSION['user_id'] = $user['user_id'];
-                if($user['role']='viewer'){
-                    header('Location: ' . dirname($_SERVER['PHP_SELF']) . '/home');
-                }else{
-                    header('Location: ' . dirname($_SERVER['PHP_SELF']) . '/HomeAdmin');
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $email = $_POST['email'];
+        $password = $_POST['password'];
 
-                }
+        $user = $this->userModel->authenticateUser($email, $password);
+        if ($user) {
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['role'] = $user['role'];
+            $_SESSION['image'] = $user['image'];
+            if ($user['role'] == 'viewer') {
+                header('Location: ' . dirname($_SERVER['PHP_SELF']) . '/home');
             } else {
-                // Handle login failure
-                echo "Invalid credentials.";
+                header('Location: ' . dirname($_SERVER['PHP_SELF']) . '/Admin');
             }
+            exit(); 
+        } else {
+            $errorMessage = "Invalid email or password.";
         }
-
-        // Render login form
-        $this->view('master', [
-            'Page' => 'user/login'
-        ]);
+    } else {
+        $errorMessage = 'Invalid request method.';
     }
+    $this->view('master', [
+        'Page' => 'user/login',
+        'errorMessage' => $errorMessage
+    ]);
+}
     public function logout() {
-        // Hủy phiên người dùng
-        session_start(); // Bắt đầu phiên nếu chưa bắt đầu
-        session_unset(); // Xóa tất cả các biến phiên
-        session_destroy(); // Hủy phiên
-
-        // Chuyển hướng người dùng về trang đăng nhập hoặc trang chủ
-        header('Location: login'); // Hoặc 'home' tùy theo yêu cầu
-        exit(); // Kết thúc script sau khi chuyển hướng
+        session_start();
+        session_unset(); 
+        session_destroy();
+        header('Location: login'); 
+        exit();
     }
         public function addCollection() {
             if (!isset($_SESSION['user_id'])) {
@@ -120,13 +130,13 @@ class User extends Controller
                 return;
             }
 
-            $userId = (int)$_SESSION['user_id']; // Lấy userId từ session
-            $movieId = (int)$_POST['movie_id']; // Lấy movieId từ POST
+            $userId = (int)$_SESSION['user_id']; 
+            $movieId = (int)$_POST['movie_id'];
 
             $result = $this->userModel->addCollection($movieId, $userId);
 
             if ($result) {
-                echo 'success!!!';
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
             } else {
                 echo json_encode(['status' => 'error', 'message' => 'Something went wrong']);
             }

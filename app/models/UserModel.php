@@ -27,7 +27,6 @@ class UserModel extends Controller {
     }
 
     public function getCollection($userId) {
-        // Câu lệnh SQL
         $sql = "SELECT c.collection_id, m.movie_id, m.title, m.poster
                 FROM collections c 
                 JOIN movies m ON c.movie_id = m.movie_id 
@@ -45,60 +44,72 @@ class UserModel extends Controller {
         }
 
         $result = $stmt->get_result();
-        
-        // Trả về tất cả các kết quả dưới dạng mảng
         return $result->fetch_all(MYSQLI_ASSOC);
     }
-    public function addCollection($movieId, $userId) {
-        // Kiểm tra xem bản ghi đã tồn tại chưa
-        $checkQuery = "SELECT COUNT(*) FROM Collections WHERE movie_id = ? AND user_id = ?";
-        $checkStmt = $this->db->conn->prepare($checkQuery);
+public function addCollection($movieId, $userId) {
+    $checkQuery = "SELECT COUNT(*) FROM Collections WHERE movie_id = ? AND user_id = ?";
+    $checkStmt = $this->db->conn->prepare($checkQuery);
 
-        if ($checkStmt === false) {
-            return false; // Xử lý lỗi khi chuẩn bị câu lệnh
-        }
-
-        $checkStmt->bind_param("ii", $movieId, $userId);
-        $checkStmt->execute();
-        $checkStmt->bind_result($count);
-        $checkStmt->fetch();
-        $checkStmt->close();
-
-        // Nếu bản ghi đã tồn tại, không thực hiện thêm
-        if ($count > 0) {
-            return false; // Có thể trả về một thông báo khác nếu cần
-        }
-
-        // Nếu chưa tồn tại, thực hiện thêm
-        $query = "INSERT INTO Collections (movie_id, user_id) VALUES (?, ?)";
-        $stmt = $this->db->conn->prepare($query);
-
-        if ($stmt === false) {
-            return false; // Xử lý lỗi khi chuẩn bị câu lệnh
-        }
-
-        $stmt->bind_param("ii", $movieId, $userId);
-        
-        // Thực hiện câu lệnh INSERT và trả về kết quả
-        $result = $stmt->execute();
-        $stmt->close(); // Đóng statement sau khi sử dụng
-
-        return $result; // Trả về true nếu thêm thành công, false nếu không
+    if ($checkStmt === false) {
+        return false;
     }
-    public function createUser($name, $email, $password) {
-        $query = "INSERT INTO users (user_name, email, password) VALUES (?, ?, ?)";
+
+    $checkStmt->bind_param("ii", $movieId, $userId);
+    $checkStmt->execute();
+    $checkStmt->bind_result($count);
+    $checkStmt->fetch();
+    $checkStmt->close();
+    if ($count > 0) {
+        $deleteQuery = "DELETE FROM Collections WHERE movie_id = ? AND user_id = ?";
+        $deleteStmt = $this->db->conn->prepare($deleteQuery);
+
+        if ($deleteStmt === false) {
+            return false;
+        }
+
+        $deleteStmt->bind_param("ii", $movieId, $userId);
+        $result = $deleteStmt->execute();
+        $deleteStmt->close();
+
+        return $result;
+    }
+
+    $query = "INSERT INTO Collections (movie_id, user_id) VALUES (?, ?)";
+    $stmt = $this->db->conn->prepare($query);
+
+    if ($stmt === false) {
+        return false;
+    }
+
+    $stmt->bind_param("ii", $movieId, $userId);
+    $result = $stmt->execute();
+    $stmt->close();
+    return $result;
+}
+    public function createUser($name, $email, $password, $image) {
+        $query = "INSERT INTO users (user_name, email, password, image) VALUES (?, ?, ?, ?)";
         $stmt = $this->db->conn->prepare($query);
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-        $stmt->bind_param("sss", $name, $email, $hashedPassword);
+        $stmt->bind_param("ssss", $name, $email, $hashedPassword, $image);
         return $stmt->execute();
     }
 
-    public function updateUser($userId, $name, $email) {
-        $query = "UPDATE users SET name = ?, email = ? WHERE user_id = ?";
-        $stmt = $this->db->conn->prepare($query);
-        $stmt->bind_param("ssi", $name, $email, $userId);
-        return $stmt->execute();
+public function updateUser($userId, $name, $email, $image, $birth) {
+    $sql = "UPDATE users SET user_name = ?, email = ?, image = ?, birth = ? WHERE user_id = ?";
+    
+    $stmt = $this->db->conn->prepare($sql);
+    if ($stmt === false) {
+        error_log("MySQL prepare error: " . $this->db->conn->error);
+        return false;
     }
+    $stmt->bind_param('ssssi', $name, $email, $image, $birth, $userId);
+    if ($stmt->execute()) {
+        return true;
+    } else {
+        error_log("Database error: " . $stmt->error);
+        return false;
+    }
+}
 
     public function deleteUser($userId) {
         $stmt =  $this->db->conn->prepare("DELETE FROM comment WHERE user_id = ?");
@@ -117,7 +128,7 @@ class UserModel extends Controller {
             die("Execute failed: " . $stmt->error);
         }
     
-        return $stmt->affected_rows > 0; // Trả về true nếu xóa thành công
+        return $stmt->affected_rows > 0;
     }
 
     public function authenticateUser($email, $password) {
@@ -150,7 +161,17 @@ class UserModel extends Controller {
         }
         $stmt->close();
 
-        return $history; // Trả về mảng lịch sử
+        return $history;
+    }
+    public function getUserInfo($userId) {
+        $query = "SELECT image FROM Users WHERE id = ?";
+        $stmt = $this->db->conn->prepare($query);
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $stmt->bind_result($image);
+        $stmt->fetch();
+        $stmt->close();
+        return $image;
     }
 }
 ?>

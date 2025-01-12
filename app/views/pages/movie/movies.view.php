@@ -23,10 +23,6 @@
     margin: 0; 
     margin-right: 20px; 
     font-size:20px;
-    /* height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center; */
 }
 .movie-page h4 {
     color: white;
@@ -59,7 +55,7 @@
     background-color: #0056b3;
 }
 .movie-page .movie-container {
-    max-width: 1000px;
+    max-width: 1150px;
     margin: auto;
     padding: 20px;
 }
@@ -69,7 +65,6 @@
 .movie-page .release {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
 }
 .movie-page .movie {
     background-color: black;
@@ -77,8 +72,7 @@
     padding: 10px;
     margin-top: 20px;
     margin: 10px;
-    width: 220px;
-    /* width: calc(25% - 20px); */
+    width: 250px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
     position: relative;
@@ -126,7 +120,7 @@
     border-radius: 4px;
     text-align: center;
     font-size: 16px;
-    margin-left: 20px;
+    margin-left: 40px;
 }
 
 .movie-page .watch-button:hover {

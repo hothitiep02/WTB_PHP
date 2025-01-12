@@ -13,7 +13,7 @@
         background-color: black;
         width: 100%;
     }
-    #home{
+    /* #home{
         font-size: 26px;
     }
     #movies{
@@ -21,12 +21,12 @@
     }
     .iconUser{
         font-size: 26px;
-    }
+    } */
 
-    a {
+    .nav a {
         text-decoration: none;
         color: white;
-        font-size: 18px;
+        /* font-size: 26px; */
     }
 
     .nav>* {

@@ -10,9 +10,9 @@ body{
     background-color: rgba(0, 0, 0, 0.84);
 }  
 .history-container {
-    max-width: 1200px;
+    max-width: 100%;
     margin: auto;
-    padding: 20px;
+    padding: 20px 100px;
     display: flex; 
     flex-wrap: wrap; 
     justify-content: space-between;
@@ -61,15 +61,22 @@ body{
     text-decoration: none;
     border-radius: 4px;
     text-align: center;
-    font-size: 18px;
+    font-size: 16px;
+    width: 170px;
+    margin-left: 35px;
 }
 
 .watch-button:hover {
     background-color: red;
 }
+h2{
+    margin-left: 100px;
+    color:white;
+}
     </style>
 </head>
 <body>
+    <h2>Movie Viewing History</h2>
     <div class="history-container">
         <?php
         if (is_array($data['history']) && !empty($data['history'])) {

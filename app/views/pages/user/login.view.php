@@ -9,11 +9,11 @@
 </head>
 
 <body>
-    <div class="parent">/div>
+    <div class="parent">
         <div class="container">
             <h1>Login</h1>
-            <?php if (!empty($error)): ?>
-                <div class="error-message"><?php echo htmlspecialchars($error); ?></div>
+            <?php if (!empty($errorMessage)): ?> 
+                <div class="error-message"><?php echo htmlspecialchars($errorMessage); ?></div>
             <?php endif; ?>
             <form method="post" class="form-login" action="">
                 <input type="hidden" name="action" value="login">
@@ -23,7 +23,7 @@
                 <label for="user-password">Password</label>
                 <input type="password" name="password" id="password" placeholder="Input your password here" required>
 
-                <input class="login"type="submit" value="Login">
+                <input class="login" type="submit" value="Login">
             </form>
             <a href="#" class="forgot-pw">Forgot Password?</a>
             <p>Already have an account? <a href="user/register"><b>Register</b></a></p>
