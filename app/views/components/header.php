@@ -27,7 +27,7 @@
                     </div>
                 </form>
             </div>
-            <div><a href="movie" id="movies">Movies</a></div>
+            <div><a href="movie" id="movies" style="font-size:26px;">Movies</a></div>
             <div class="auth">
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <div id="user-icon" class="user-icon">
