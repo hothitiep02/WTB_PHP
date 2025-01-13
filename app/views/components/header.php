@@ -46,7 +46,9 @@
                             <div>
                                 <a href="admin/ShowUserAdmin">Users Management</a>
                             </div>
-                            
+                            <div>
+                                <a href="admin/Dashboard">DashBoard</a>
+                            </div>
                         </div>
                     <?php endif; ?>
                 <?php else: ?>
