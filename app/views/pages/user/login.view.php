@@ -9,10 +9,10 @@
 </head>
 
 <body>
-    <div class="parent"> <!-- Sửa lỗi ở đây -->
+    <div class="parent">
         <div class="container">
             <h1>Login</h1>
-            <?php if (!empty($errorMessage)): ?> <!-- Đảm bảo sử dụng đúng tên biến -->
+            <?php if (!empty($errorMessage)): ?> 
                 <div class="error-message"><?php echo htmlspecialchars($errorMessage); ?></div>
             <?php endif; ?>
             <form method="post" class="form-login" action="">

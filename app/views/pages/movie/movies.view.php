@@ -5,96 +5,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 <style>
-    /* Đảm bảo tất cả mã CSS được bao bọc trong một lớp cụ thể */
 .movie-page {
     font-family: Arial, sans-serif;
-    background-color: black; /* Màu nền nhẹ */
+    background-color:rgba(0, 0, 0, 0.84);
+    display: flex;
 }
 
-/* Định dạng form giống như navigation */
-/* Định dạng form giống như navigation */
 .movie-page form {
-    background-color: black; /* Màu nền tối giống nav */
-    border-radius: 0; /* Không bo góc */
-    padding: 10px 20px; /* Padding để tạo khoảng cách */
-    max-width: 1000px; /* Chiều rộng tối đa cho form */
-    display: flex; /* Sử dụng flexbox */
-    align-items: center; /* Căn giữa dọc */
-    justify-content: center; /* Căn giữa ngang */
-    flex-wrap: wrap; /* Cho phép các phần tử xuống dòng */
-}
-
-/* Định dạng các label trong form */
-.movie-page label {
-    color: white; /* Màu chữ trắng */
-    margin: 0 10px; /* Khoảng cách giữa các label */
-    text-align: center; /* Căn giữa chữ trong label */
-    flex: 0 1 auto; /* Cho phép label tự do căn chỉnh */
-}
-
-/* Định dạng button */
-.movie-page button {
-    padding: 10px 15px;
-    background-color: red; /* Màu nút */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: 20px; /* Khoảng cách với các label */
+    background-color: #343a40;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 .movie-page h3 {
-    color: white; /* Màu chữ trắng để tương phản với nền */
-    margin: 0; /* Không có khoảng cách */
-    margin-right: 20px; /* Khoảng cách với các phần tử khác */
+    color: yellow;
+    margin: 0; 
+    margin-right: 20px; 
+    font-size:20px;
 }
-
+.movie-page h4 {
+    color: white;
+    margin: 0; 
+    margin-right: 20px; 
+    font-size:20px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.movie-page label {
+    color: yellow; 
+    margin-right: 20px;
+    display: flex;
+    gap: 10px;
+    font-size: 18px;
+    
+}
+.movie-page button {
+    padding: 10px 15px;
+    background-color: #007bff; 
+    color: white;
+    font-size: 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
 .movie-page button:hover {
-    background-color: red; /* Màu nền khi hover */
+    background-color: #0056b3;
 }
-
-/* Định dạng container phim */
 .movie-page .movie-container {
-    max-width: 1200px;
+    max-width: 1150px;
     margin: auto;
     padding: 20px;
 }
-
-/* Định dạng danh sách phim */
 .movie-page .section {
     margin-bottom: 40px;
 }
-
 .movie-page .release {
     display: flex;
-    flex-wrap: wrap; /* Cho phép các phần tử xuống dòng */
-    justify-content: space-between; /* Căn giữa các cột */
+    flex-wrap: wrap;
 }
-
-/* Định dạng từng phim */
 .movie-page .movie {
     background-color: black;
-    border: 1px solid #ddd;
     border-radius: 8px;
     padding: 10px;
+    margin-top: 20px;
     margin: 10px;
-    width: calc(25% - 20px); /* Đặt chiều rộng cho mỗi div phim */
+    width: 250px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
-    position: relative; /* Để định vị play-button */
+    position: relative;
 }
 
 .movie-page .movie:hover {
-    transform: scale(1.05); /* Hiệu ứng phóng to khi hover */
+    transform: scale(1.05);
 }
 
 .movie-page .movie img {
     width: 100%;
     border-radius: 4px;
-    height: 200px; /* Chiều cao cho hình ảnh */
-    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+    height: 200px; 
+    object-fit: cover; 
 }
 
-/* Định dạng nút play */
 .movie-page .play-button {
     position: absolute;
     top: 50%;
@@ -112,52 +106,55 @@
     cursor: pointer;
 }
 
-/* Định dạng tiêu đề phim */
 .movie-page .movie_title {
     text-align: center;
     margin: 10px 0;
 }
 
-/* Định dạng nút xem phim */
 .movie-page .watch-button {
     display: inline-block;
     padding: 8px 16px;
-    margin: 5px 0;
     background-color: red;
     color: white;
     text-decoration: none;
     border-radius: 4px;
     text-align: center;
+    font-size: 16px;
+    margin-left: 40px;
 }
 
 .movie-page .watch-button:hover {
-    background-color: red; /* Màu nền khi hover */
+    background-color: #0056b3;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .movie-page .movie {
-        width: calc(50% - 20px); /* Thay đổi chiều rộng cho màn hình nhỏ */
+        width: calc(50% - 20px); 
     }
 }
 
 @media (max-width: 480px) {
     .movie-page .movie {
-        width: 100%; /* Chiều rộng 100% cho màn hình rất nhỏ */
+        width: 100%; 
     }
 }
+h2 {
+    font-size: 35px;
+    color: white;
+}
+
 </style>
 </head>
 <body>
     <div class="movie-page">
-        <form action="Movie/filterByGenre" method="POST">
+        <form action="Movie/filterByGenre" method="POST" class="filter">
             <h3>Select Genre:</h3>
             <?php
             foreach ($data['genres'] as $genre) {
                 echo "<label>";
                 echo "<input type='radio' name='genre' value='" . htmlspecialchars($genre['type_id']) . "'>";
                 echo htmlspecialchars($genre['type_name']);
-                echo "</label><br>";
+                echo "</label>";
             }
             ?>
             <button type="submit">Filter</button>
@@ -173,13 +170,13 @@
                             echo "<img src='" . htmlspecialchars($movie['poster']) . "' alt='" . htmlspecialchars($movie['title']) . "' />";
                             echo "<div class='play-button'>▶</div>";
                             echo "<div class='movie_title'>";
-                            echo "<h3>" . htmlspecialchars($movie['title']) . "</h3>";
+                            echo "<h4>" . htmlspecialchars($movie['title']) . "</h4>";
                             echo "</div>";
                             echo "<a class='watch-button' href='Movie/showById/" . htmlspecialchars($movie['movie_id']) . "'>▶ Watch movie</a>";
                             echo "</div>";
                         }
                     } else {
-                        echo "<p>No movie available.</p>"; // Message if no latest movies
+                        echo "<p>No movie available.</p>"; 
                     }
                     ?>
                 </div>

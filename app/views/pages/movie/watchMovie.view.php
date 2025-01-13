@@ -74,7 +74,7 @@
                         <?php endif; ?>
                     </div>
                 </form>
-                <div class="view" style="margin-left:20px">
+                <div class="view" style="margin-left:20px; margin-left: 20px;display: flex;align-items: center;gap: 20px;font-size: 30px;">
                     <i class="fa fa-eye"></i>
                     <div class="num_view">
                         <p><?php echo count($data['views']); ?></p>
