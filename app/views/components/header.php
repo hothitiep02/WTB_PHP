@@ -42,6 +42,7 @@
                         <div class="admin-links">
                             <a href="admin/MovieManage">Movies</a>
                             <a href="admin/ShowUserAdmin">Users</a>
+                            <a href="admin/Dashboard">Dashboard</a>
                             <!-- Thêm các liên kết admin khác ở đây -->
                         </div>
                     <?php endif; ?>
