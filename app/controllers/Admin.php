@@ -136,25 +136,25 @@ class Admin  extends Controller
                 echo json_encode(['status' => 'error', 'message' => 'Failed to add comment']);
             }
         }
-        public function dashboard() {
-            $movies = $this->MovieModel->getAllMovies(); // Lấy tất cả phim
-            $movieNum = count($movies);
-            $movieViews = [];
+    public function dashboard() {
+        $movies = $this->MovieModel->getAllMovies(); // Lấy tất cả phim
+        $movieNum = count($movies);
+        $movieViews = [];
 
-            foreach ($movies as $movie) {
-                $viewsCount = count($this->MovieModel->getMovieViews($movie['movie_id'])); // Đếm số lượt xem
-                $movieViews[] = [
-                    'movie' => $movie,
-                    'views' => $viewsCount,
-                ];
-            }
-
-            $this->view('master', [
-                'Page' => 'Admin/dashboard',
-                'movieNum' => $movieNum,
-                'movieViews' => $movieViews,
-            ]);
+        foreach ($movies as $movie) {
+            $viewsCount = count($this->MovieModel->getMovieViews($movie['movie_id'])); // Đếm số lượt xem
+            $movieViews[] = [
+                'movie' => $movie,
+                'views' => $viewsCount,
+            ];
         }
+
+        $this->view('master', [
+            'Page' => 'Admin/dashboard',
+            'movieNum' => $movieNum,
+            'movieViews' => $movieViews,
+        ]);
+    }
     
     }
 

@@ -178,6 +178,7 @@
 
     .main-content{
         position: relative;
+        /* z-index: -1; Thay đổi giá trị cho phù hợp */
     }
     #closeUpdateForm{
         background-color: gray;
@@ -187,3 +188,7 @@
     .mb-3 .form-control {
         margin: 0;
     }
+    /* #updateMovieModal{
+        display: flex;
+        justify-content: center;
+    } */

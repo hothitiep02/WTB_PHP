@@ -13,7 +13,7 @@
         <div class="nav">
             <div class="logo"><img src="/WTB_PHP/public/images/Logo WTB.jpg" alt=""></div>
             <div>
-                <a href="home">Home</a>
+                <a href="home" style="font-size:26px;">Home</a>
             </div>
             <div class="btn_search">
                 <form action="Movie/search" method="POST" class="srch">
@@ -27,7 +27,7 @@
                     </div>
                 </form>
             </div>
-            <div><a href="movie">Movies</a></div>
+            <div><a href="movie" id="movies">Movies</a></div>
             <div class="auth">
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <div id="user-icon" class="user-icon">
@@ -40,10 +40,13 @@
                     </div>
                     <?php if ($_SESSION['role'] === 'admin'): ?>
                         <div class="admin-links">
-                            <a href="admin/MovieManage">Movies</a>
-                            <a href="admin/ShowUserAdmin">Users</a>
-                            <a href="admin/Dashboard">Dashboard</a>
-                            <!-- Thêm các liên kết admin khác ở đây -->
+                            <div>
+                                <a href="admin/MovieManage">Movies Management</a>
+                            </div>
+                            <div>
+                                <a href="admin/ShowUserAdmin">Users Management</a>
+                            </div>
+                            
                         </div>
                     <?php endif; ?>
                 <?php else: ?>

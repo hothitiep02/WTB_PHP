@@ -28,18 +28,12 @@ public function register() {
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'register') {
         $fullname = $_POST['fullname'];
         $email = $_POST['email'];
-        $password = $_POST['password']; // Mã hóa mật khẩu
-        $defaultImage = 'logo.png'; // Ảnh mặc định
-
-        // Lưu thông tin người dùng vào cơ sở dữ liệu
+        $password = $_POST['password'];
+        $defaultImage = 'logo.png'; 
         $this->userModel->createUser($fullname, $email, $password, $defaultImage);
-
-        // Chuyển hướng người dùng đến trang đăng nhập hoặc trang khác
         header('Location: login');
         exit();
     }
-
-    // Render trang đăng ký nếu không phải là yêu cầu POST
     $this->view('master', [
         'Page' => 'user/register'
     ]);
@@ -52,16 +46,13 @@ public function update() {
         $name = $_POST['user_name'];
         $email = $_POST['email'];
         $birth = $_POST['birth'];
-        $image = null; // Khởi tạo biến hình ảnh
-
-        // Kiểm tra dữ liệu từ input
+        $image = null; 
         if (isset($_FILES['image'])) {
-            var_dump($_FILES['image']); // Kiểm tra dữ liệu file
+            var_dump($_FILES['image']);
         }
 
-        // Xử lý upload hình ảnh
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = 'C:/xampp/htdocs/WTB_PHP/public/images/avatar/';
+            $uploadDir = 'C:/xamppp/htdocs/WTB_PHP/public/images/avatar/';
             $image = time() . '_' . basename($_FILES['image']['name']);
             $uploadFilePath = $uploadDir . $image;
 
@@ -70,15 +61,11 @@ public function update() {
                 return;
             }
         } else {
-            // Nếu không có hình ảnh mới, giữ lại hình ảnh cũ
             $currentUser = $this->userModel->getUserById($userId);
-            $image = $currentUser['image']; // Giữ lại hình ảnh cũ
+            $image = $currentUser['image']; 
         }
-
-        // Cập nhật thông tin người dùng
         if ($this->userModel->updateUser($userId, $name, $email, $image, $birth)) {
-            // Cập nhật lại thông tin người dùng trong session
-            $_SESSION['image'] = $image; // Lưu lại ảnh mới vào session nếu có
+            $_SESSION['image'] = $image;
             header('Location: profile');
             exit();
         } else {
@@ -86,8 +73,6 @@ public function update() {
             echo "Error updating user.";
         }
     }
-
-    // Lấy thông tin người dùng để chỉnh sửa
     $user = $this->userModel->getUserById($userId);
     $this->view('master', [
         'Page' => 'user/profile',
@@ -97,16 +82,14 @@ public function update() {
 
     public function delete($userId) {
         if ($this->userModel->deleteUser($userId)) {
-            // Redirect to user list or show success message
             header('Location: /user/show');
         } else {
-            // Handle error
             echo "Error deleting user.";
         }
     }
 
 public function login() {
-    $errorMessage = ''; // Khởi tạo biến thông báo lỗi
+    $errorMessage = '';
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email = $_POST['email'];
@@ -114,41 +97,32 @@ public function login() {
 
         $user = $this->userModel->authenticateUser($email, $password);
         if ($user) {
-            // Set session or redirect
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['role'] = $user['role'];
             $_SESSION['image'] = $user['image'];
-            
-            // Sử dụng phép so sánh == thay vì =
             if ($user['role'] == 'viewer') {
                 header('Location: ' . dirname($_SERVER['PHP_SELF']) . '/home');
             } else {
                 header('Location: ' . dirname($_SERVER['PHP_SELF']) . '/Admin');
             }
-            exit(); // Dừng script sau khi redirect
+            exit(); 
         } else {
-            // Gán thông báo lỗi nếu thông tin đăng nhập không hợp lệ
             $errorMessage = "Invalid email or password.";
         }
     } else {
         $errorMessage = 'Invalid request method.';
     }
-
-    // Render login form với thông báo lỗi (nếu có)
     $this->view('master', [
         'Page' => 'user/login',
-        'errorMessage' => $errorMessage // Truyền thông báo lỗi sang view
+        'errorMessage' => $errorMessage
     ]);
 }
     public function logout() {
-        // Hủy phiên người dùng
-        session_start(); // Bắt đầu phiên nếu chưa bắt đầu
-        session_unset(); // Xóa tất cả các biến phiên
-        session_destroy(); // Hủy phiên
-
-        // Chuyển hướng người dùng về trang đăng nhập hoặc trang chủ
-        header('Location: login'); // Hoặc 'home' tùy theo yêu cầu
-        exit(); // Kết thúc script sau khi chuyển hướng
+        session_start();
+        session_unset(); 
+        session_destroy();
+        header('Location: login'); 
+        exit();
     }
         public function addCollection() {
             if (!isset($_SESSION['user_id'])) {
@@ -156,8 +130,8 @@ public function login() {
                 return;
             }
 
-            $userId = (int)$_SESSION['user_id']; // Lấy userId từ session
-            $movieId = (int)$_POST['movie_id']; // Lấy movieId từ POST
+            $userId = (int)$_SESSION['user_id']; 
+            $movieId = (int)$_POST['movie_id'];
 
             $result = $this->userModel->addCollection($movieId, $userId);
 
