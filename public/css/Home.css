@@ -1,3 +1,6 @@
+.slide_img {
+    width: 100%;
+}
 .home-container {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -26,6 +29,7 @@ h2 {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    
 }
 
 h2 a {
@@ -164,7 +168,7 @@ h2 a:hover {
 }
 
 .movie_title h3 {
-    font-size: 16px;
+    font-size: 18px;
     color: white;
     padding: 4px;
 }
