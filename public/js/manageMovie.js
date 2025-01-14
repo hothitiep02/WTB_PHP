@@ -24,4 +24,6 @@ var updateMovieModal = document.getElementById('updateMovieModal');
         urlInput.value = movieUrl;
         posterInput.value = poster;
         typeSelect.value = typeId;
+
+        
     });

@@ -30,34 +30,34 @@
                 </thead>
 
                 <tbody id="movieTableBody">
-                    <?php
-                        if (!empty($data['movies']) && is_array($data['movies'])) {
-                            foreach ($data['movies'] as $movie) {
-                                echo "
-                                    <tr>
-                                        <td>{$movie['movie_id']}</td>
-                                        <td>{$movie['title']}</td>
-                                        <td>{$movie['movie_url']}</td>
-                                        <td><img src='{$movie['poster']}' class='img-thumbnail' alt='Image of {$movie['title']}'></td>
-                                        <td>{$movie['created_at']}</td>
-                                        <td>
-                                            <form action='Admin/deleteMovie' method='POST' style='display:inline;' class='btn-form'>
-                                                <input type='hidden' name='movie_id' value='{$movie['movie_id']}'>
-                                                <!-- Modal Trigger -->
-                                                <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#updateMovieModal' data-id='{$movie['movie_id']}' data-title='{$movie['title']}' data-description='{$movie['description']}' data-url='{$movie['movie_url']}' data-poster='{$movie['poster']}' data-type='{$movie['type_id']}'>Update</button>
-                                                <button class='btn btn-danger'>Delete</button>
-                                               <a href='Admin/showMovieDetailsAdmin/" . htmlspecialchars($movie["movie_id"]) . "' class='btn btn-secondary'>Detail</a>
+    <?php
+        if (!empty($data['movies']) && is_array($data['movies'])) {
+            foreach ($data['movies'] as $movie) {
+                echo "
+                    <tr>
+                        <td>{$movie['movie_id']}</td>
+                        <td>{$movie['title']}</td>
+                        <td>{$movie['movie_url']}</td>
+                        <td><img src='{$movie['poster']}' class='img-thumbnail' alt='Image of {$movie['title']}'></td>
+                        <td>{$movie['created_at']}</td>
+                        <td>
+                            <form action='Admin/deleteMovie' method='POST' style='display:inline;' class='btn-form' id='deleteForm_{$movie['movie_id']}'>
+                                <input type='hidden' name='movie_id' value='{$movie['movie_id']}'>
+                                <!-- Modal Trigger -->
+                                <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#updateMovieModal' data-id='{$movie['movie_id']}' data-title='{$movie['title']}' data-description='{$movie['description']}' data-url='{$movie['movie_url']}' data-poster='{$movie['poster']}' data-type='{$movie['type_id']}'>Update</button>
+                                <button type='button' class='btn btn-danger' onclick='confirmDelete({$movie['movie_id']})'>Delete</button>
+                                <a href='Admin/showMovieDetailsAdmin/" . htmlspecialchars($movie["movie_id"]) . "' class='btn btn-secondary'>Detail</a>
+                            </form>
+                        </td>
+                    </tr>
+                ";
+            }
+        } else {
+            echo "<tr><td colspan='6' class='text-center'>No movies found.</td></tr>";
+        }   
+    ?>
+</tbody>
 
-                                            </form>
-                                        </td>
-                                    </tr>
-                                ";
-                            }
-                        } else {
-                            echo "<tr><td colspan='6' class='text-center'>No movies found.</td></tr>";
-                        }   
-                    ?>
-                </tbody>
 
 
             </table>
@@ -155,6 +155,15 @@
             </div>
         </div>
     </div>
+    <script>
+        function confirmDelete(movieId) {
+            const confirmation = confirm("Are you sure you want to delete this movie?");
+            if (confirmation) {
+                const form = document.getElementById('deleteForm_' + movieId);
+                form.submit();
+            }
+        }
+    </script>
     <script src="/WTB_PHP/public/js/manageMovie.js"></script>
 
 </body>

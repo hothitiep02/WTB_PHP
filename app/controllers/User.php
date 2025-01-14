@@ -29,7 +29,7 @@ public function register() {
         $fullname = $_POST['fullname'];
         $email = $_POST['email'];
         $password = $_POST['password'];
-        $defaultImage = 'logo.png'; 
+        $defaultImage = 'Avata_default.jpg'; 
         $this->userModel->createUser($fullname, $email, $password, $defaultImage);
         header('Location: login');
         exit();

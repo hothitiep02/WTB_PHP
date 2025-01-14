@@ -10,33 +10,61 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
     <style>
         #myfirstchart {
-            height: 250px; /* Chiều cao của biểu đồ */
-            width: 100%;   /* Chiều rộng của biểu đồ */
+            height: 250px;
+            width: 100%;   
         }
         #pagination {
             margin-top: 20px;
         }
+        .allNum_movie{
+            display: flex;
+            align-items: center;
+            gap: 20px
+        }
+        .allNum_movie p{
+            font-size: 24px;
+        }
+        .allNum_movie div{
+            font-size: 18px;
+            color:red;
+        }
+        .dasboard p{
+            margin: 0px;
+        }
+        .largre{
+            margin: 0px 50px;
+        }
+        #pagination button{
+            border: none;
+            padding: 8px 25px;
+            border-radius: 15px;
+            background-color:yellow;
+            color: black;
+            margin-bottom: 30px;    
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div>
-            <p>Tổng số phim: </p>
-            <div><?php echo htmlspecialchars($data['movieNum']); ?></div>
+    <div class="largre">
+        <div class="container">
+            <div class="allNum_movie">
+                <p><b>Tổng số phim:</b> </p>
+                <div><?php echo htmlspecialchars($data['movieNum']); ?></div>
+            </div>
         </div>
-    </div>
-    <div>
-        <p>Biểu đồ lượt xem phim</p>
-        <div id="myfirstchart"></div>
-    </div>
-    <div id="pagination">
-        <button id="prevPage" disabled>Trước</button>
-        <span id="pageInfo"></span>
-        <button id="nextPage">Sau</button>
+        <div class="dasboard">
+            <p><b>Biểu đồ lượt xem phim</b></p>
+            <div id="myfirstchart"></div>
+        </div>
+        <div id="pagination">
+            <button id="prevPage" disabled style="margin-right:20px;">Trước</button>
+            <span id="pageInfo"></span>
+            <button id="nextPage" style="margin: 0px 20px;">Sau</button>
+        </div>
     </div>
     
     <script>
-        const moviesPerPage = 5; // Số phim hiển thị mỗi trang
+        const moviesPerPage = 5;
         let currentPage = 0;
         const movieViewsData = [
             <?php foreach ($data['movieViews'] as $mv): ?>
@@ -48,8 +76,6 @@
             const start = currentPage * moviesPerPage;
             const end = Math.min(start + moviesPerPage, movieViewsData.length);
             const currentMovies = movieViewsData.slice(start, end);
-
-            // Xóa nội dung cũ của biểu đồ
             $('#myfirstchart').empty();
 
             if (currentMovies.length > 0) {
@@ -87,7 +113,7 @@
             }
         });
 
-        renderChart(); // Vẽ biểu đồ lần đầu
+        renderChart();
     </script>
 </body>
 </html>
