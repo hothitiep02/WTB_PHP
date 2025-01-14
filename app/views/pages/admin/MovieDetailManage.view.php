@@ -15,7 +15,7 @@
 
     .box_comment {
         display:flex;
-        gap:10px;
+        gap:50px;
         align-items: center;
     }
 
@@ -81,13 +81,13 @@
             <div class="num_cmt">
                 <h2><?php echo count($data['comments']); ?> Comments</h2>
                 <div class="text_cmt">
-                    <img src="https://vapa.vn/wp-content/uploads/2022/12/anh-dai-dien-dep-001.jpg" class="avarta" alt="">
+                    <img src="<?php echo htmlspecialchars('/WTB_PHP/public/images/avatar/' . $_SESSION['image']); ?>" class="avarta" alt="">
                     <div class="content">
                         <form method="post" action="Admin/addComment">
                             <input type="hidden" name="movie_id" value="<?php echo htmlspecialchars($data['movieId']['movie_id']); ?>">
                             <input type="text" name="comment_text" placeholder="Nhập bình luận">
                             <div class="button_cmt">
-                                <button type="submit" name="comment">Comment</button>
+                                <button type="submit" name="comment" style="background-color: yellow;">Comment</button>
                             </div>
                         </form>
                     </div>

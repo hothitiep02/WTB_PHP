@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="banner_img" style="width:100%; margin-top:-10px;">
-        <img class="slide_img" src="/WTB_PHP/public/images/banner.png" alt="" style="width:100%; height:500px;">
+        <img class="slide_img" src="/WTB_PHP/public/images/banner.png" alt="" style="width:100%; height:600px;">
     </div>
     <div class="home-container">
         <div class="section new-release">

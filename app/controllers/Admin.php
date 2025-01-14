@@ -2,19 +2,48 @@
 class Admin  extends Controller
 {
     public $MovieModel;
+    public $UserModel;
 
-        public function __construct()
-        {
-            $this->MovieModel = $this->model('MovieModel');
-        }
+    public function __construct()
+    {
+        $this->MovieModel = $this->model('MovieModel');
+        $this->UserModel = $this->model('UserModel');
+    }
 
-        public function show() {
+        public function showMovieAdmin() {
             $movies = $this->MovieModel->getAllMovies();
             $this->view('master', [
-                'Page' => 'manageMovie',
-                'movies' => $movies,
-
+                'Page' => 'admin/MovieManage',
+                'movies' => $movies
             ]);
+        }
+    
+        public function showUserAdmin() {
+            $users = $this->UserModel->getUsers();
+            if (!empty($users)) {
+                $this->view('master', [
+                    'Page' => 'admin/UserManage',
+                    'users' => $users,
+                ]);
+            } else {
+                $this->view('master', [
+                    'Page' => 'error',
+                    'message' => 'No users found in the database.'
+                ]);
+            }
+        }
+        
+        public function show() {
+            $this->showMovieAdmin(); // Mặc định hiển thị danh sách phim
+        }
+    
+        public function deleteUser($userId) {
+            if ($this->UserModel->deleteUser($userId)) {
+                header("Location: /WTB_PHP/Admin/showUserAdmin");
+                exit();
+            } else {
+                echo "Lỗi khi xóa bình luận.";
+            }
         }
 
         public function updateMovie()
@@ -34,11 +63,11 @@ class Admin  extends Controller
             $result = $this->MovieModel->updateMovie($movieId, $movieName, $description, $movieUrl, $typeMovie, $poster);
 
             if ($result) {
-                header("Location: /WTB_PHP/HomeAdmin/show/updateMovie/$movieId");
+                header("Location: /WTB_PHP/Admin/show/updateMovie/$movieId");
                 exit();
             } else {
                 $this->view('master', [
-                    'Page' => 'manageMovie',
+                    'Page' => 'Admin/MovieManage',
                     'error' => 'Error updating Movie.'
                 ]);
             }
@@ -53,11 +82,11 @@ class Admin  extends Controller
             $result = $this->MovieModel->deleteMovie($movieId);
 
             if ($result) {
-                header("Location: /WTB_PHP/HomeAdmin/show/deleteMovie");
+                header("Location: /WTB_PHP/Admin/show/deleteMovie");
                 exit();
             } else {
                 $this->view('master', [
-                    'Page' => 'manageMovie',
+                    'Page' => 'Admin/MovieManage',
                     'error' => 'Error deleting movie.'
                 ]);
             }
@@ -74,16 +103,17 @@ class Admin  extends Controller
                 $result = $this->MovieModel->addMovie($title, $description, $movieUrl, $typeId, $poster);
 
                 if ($result) {
-                    header("Location: /WTB_PHP/HomeAdmin/show/addMovie");
+                    header("Location: /WTB_PHP/Admin/show/addMovie");
                     exit();
                 } else {
                     $this->view('master', [
-                        'Page' => 'manageMovie',
+                        'Page' => 'Admin/MovieManage',
                         'error' => 'Error adding movie.'
                     ]);
                 }
             }
         }
+        
         public function showMovieDetailsAdmin($movieId = null) {
             if ($movieId > 0) {
                 $movie = $this->MovieModel->getMovieById($movieId);
@@ -91,7 +121,7 @@ class Admin  extends Controller
                 $views = $this->MovieModel->getMovieViews($movieId);
                 $likes = $this->MovieModel->getMovieLike($movieId); 
                 $this->view('master', [
-                    'Page' => 'Admin/mvDetailManage',
+                    'Page' => 'Admin/MovieDetailManage',
                     'movieId' => $movie,
                     'comments' => $comment,
                     'likes' => $likes,
@@ -107,7 +137,7 @@ class Admin  extends Controller
 
         public function deleteComment($commentId, $movieId) {
             if ($this->MovieModel->deleteComment($commentId, $movieId)) {
-                header("Location: /WTB_PHP/HomeAdmin/showMovieDetailsAdmin/" . htmlspecialchars($movieId));
+                header("Location: /WTB_PHP/Admin/showMovieDetailsAdmin/" . htmlspecialchars($movieId));
                 exit();
             } else {
                 echo "Lỗi khi xóa bình luận.";
@@ -131,7 +161,7 @@ class Admin  extends Controller
             $result = $this->MovieModel->addComment($movieId, $userId, $content);
         
             if ($result) {
-                echo json_encode(['status' => 'success', 'message' => 'Comment added successfully']);
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
             } else {
                 echo json_encode(['status' => 'error', 'message' => 'Failed to add comment']);
             }
