@@ -102,7 +102,7 @@
                             <input type="hidden" name="movie_id" value="<?php echo htmlspecialchars($data['movieId']['movie_id']); ?>">
                             <input type="text" name="comment_text" placeholder="Nhập bình luận">
                             <div class="button_cmt">
-                                <button type="submit" name="comment">Comment</button>
+                                <button type="submit" name="comment" style="background-color: yellow;">Comment</button>
                             </div>
                         </form>
                     </div>

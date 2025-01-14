@@ -29,7 +29,7 @@ public function register() {
         $fullname = $_POST['fullname'];
         $email = $_POST['email'];
         $password = $_POST['password'];
-        $defaultImage = 'logo.png'; 
+        $defaultImage = 'Avata_default.jpg'; 
         $this->userModel->createUser($fullname, $email, $password, $defaultImage);
         header('Location: login');
         exit();
@@ -42,38 +42,60 @@ public function register() {
 public function update() {
     $userId = $_SESSION['user_id'];
 
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Lấy thông tin từ form
         $name = $_POST['user_name'];
         $email = $_POST['email'];
         $birth = $_POST['birth'];
-        $image = null; 
-        if (isset($_FILES['image'])) {
-            var_dump($_FILES['image']);
-        }
+        $image = null;
 
+
+        // Kiểm tra nếu có ảnh được tải lên
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = 'C:/xamppp/htdocs/WTB_PHP/public/images/avatar/';
-            $image = time() . '_' . basename($_FILES['image']['name']);
+            $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/WTB_PHP/public/images/avatar/'; // Đường dẫn tuyệt đối đến thư mục 'avatar'
+
+
+            // Tạo tên file duy nhất bằng timestamp và tên file gốc
+            $image = time() . '_' . preg_replace("/[^a-zA-Z0-9\.]/", "_", basename($_FILES['image']['name']));
             $uploadFilePath = $uploadDir . $image;
 
+
+            // Kiểm tra nếu thư mục không tồn tại thì tạo nó
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);  // Tạo thư mục với quyền ghi đầy đủ
+            }
+
+
+            // Di chuyển file tải lên vào thư mục đích
             if (!move_uploaded_file($_FILES['image']['tmp_name'], $uploadFilePath)) {
-                echo "Error uploading image.";
+                echo "Có lỗi khi tải hình ảnh lên.";
                 return;
             }
         } else {
+            // Nếu không tải lên ảnh mới, giữ ảnh hiện tại
             $currentUser = $this->userModel->getUserById($userId);
-            $image = $currentUser['image']; 
+            $image = $currentUser['image'];
         }
+
+
+        // Cập nhật thông tin người dùng trong cơ sở dữ liệu
         if ($this->userModel->updateUser($userId, $name, $email, $image, $birth)) {
+            // Cập nhật lại ảnh trong session
             $_SESSION['image'] = $image;
             header('Location: profile');
             exit();
         } else {
             error_log("Error updating user.");
-            echo "Error updating user.";
+            echo "Có lỗi khi cập nhật thông tin người dùng.";
         }
     }
+
+
+    // Lấy thông tin người dùng để hiển thị lên form
     $user = $this->userModel->getUserById($userId);
+   
+    // Truyền dữ liệu cho view
     $this->view('master', [
         'Page' => 'user/profile',
         'user' => $user

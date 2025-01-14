@@ -32,7 +32,7 @@
                         <td>
                             <div class="btn_action" style="display:flex;gap:10px;  align-items:center;justify-content:center; text-align:center;">
                                 <form method="post" action="/WTB_PHP/Admin/deleteUser/<?php echo htmlspecialchars($user['user_id']); ?>" 
-                                    onsubmit="return confirm('Bạn có chắc muốn xóa người dùng này?');">
+                                    onsubmit="return confirm('Are you sure you want to delete this user?');">
                                     <button type="submit" class="btn_delete">Delete</button>
                                 </form>
                             </div>
